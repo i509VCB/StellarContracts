@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": {
+      "model": "stellar_contracts:block/taint"
+    },
+    "inventory": {
+      "model": "stellar_contracts:item/taint"
+    }
+  }
+}

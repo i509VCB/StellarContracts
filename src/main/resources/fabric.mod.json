@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "stellar_contracts",
+  "version": "${version}",
+
+  "name": "Stellar Contracts",
+  "description": "ModFest entry for the Team Air",
+  "authors": [
+    "Maowcraft",
+    "i509VCB",
+    "MoonlitLamps",
+    "cout970"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": "https://github.com/cout970/StellarContracts"
+  },
+  "license": "MIT",
+  "icon": "assets/stellar_contracts/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "teamair.stellarcontracts.StellarContracts"
+    ]
+  },
+  "mixins": [
+    "stellar_contracts.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.8.7",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}
