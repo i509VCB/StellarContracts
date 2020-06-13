@@ -9,5 +9,6 @@ public final class StellarRegistries {
         StellarBlocks.init();
         StellarBlockEntities.init();
         StellarEntities.init();
+        StellarGUIs.init();
     }
 }
