@@ -13,14 +13,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
@@ -186,7 +184,10 @@ public class RocketEntityMk1 extends Entity {
         if (isLaunched()) {
 
             // Move the rocket to space
-            this.addVelocity(0, 0.01, 0);
+            this.addVelocity(0, 0.01, 0.0);
+            // Add an angle at the end of the launch
+            this.pitch = (float) Math.toDegrees(Math.atan2(this.getVelocity().z, this.getVelocity().y));
+
             this.move(MovementType.SELF, getVelocity());
 
             // We don't need the particles to be sync with the server
@@ -222,5 +223,11 @@ public class RocketEntityMk1 extends Entity {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean shouldRender(double distance) {
+        // Larger render distance, distance is squared
+        return distance < 256 * 256;
     }
 }

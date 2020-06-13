@@ -24,7 +24,7 @@ public class RocketMk1EntityRenderer extends EntityRenderer<RocketEntityMk1> {
 
     public RocketMk1EntityRenderer(EntityRenderDispatcher dispatcher) {
         super(dispatcher);
-        this.model = new RocketMk1EntityRenderer.Model();
+        this.model = new Model();
     }
 
     @Override
@@ -37,6 +37,7 @@ public class RocketMk1EntityRenderer extends EntityRenderer<RocketEntityMk1> {
         matrices.push();
 
         matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(180.0F));
+        matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(entity.pitch));
 
         float wobble = (float) entity.getDamageWobbleTicks() - tickDelta;
         float wobbleStrength = entity.getDamageWobbleStrength() - tickDelta;
@@ -56,7 +57,7 @@ public class RocketMk1EntityRenderer extends EntityRenderer<RocketEntityMk1> {
         super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
     }
 
-    class Model extends EntityModel<RocketEntityMk1> {
+    static class Model extends EntityModel<RocketEntityMk1> {
         private final ModelPart model;
 
         Model() {
