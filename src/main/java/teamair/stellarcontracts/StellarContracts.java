@@ -6,6 +6,7 @@ import teamair.stellarcontracts.registry.StellarRegistries;
 
 public class StellarContracts implements ModInitializer {
     public static final String MOD_ID = "stellar_contracts";
+
     @Override
     public void onInitialize() {
         StellarRegistries.init();

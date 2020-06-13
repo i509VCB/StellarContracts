@@ -7,5 +7,6 @@ public final class StellarRegistries {
     public static void init() {
         StellarItems.init();
         StellarBlocks.init();
+        StellarEntities.init();
     }
 }

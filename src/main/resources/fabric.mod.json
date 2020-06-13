@@ -22,6 +22,9 @@
   "entrypoints": {
     "main": [
       "teamair.stellarcontracts.StellarContracts"
+    ],
+    "client": [
+      "teamair.stellarcontracts.client.StellarContractsClient"
     ]
   },
   "mixins": [
