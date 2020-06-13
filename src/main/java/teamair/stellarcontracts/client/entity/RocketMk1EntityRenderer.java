@@ -40,6 +40,7 @@ public class RocketMk1EntityRenderer extends EntityRenderer<RocketEntityMk1> {
 
         float wobble = (float) entity.getDamageWobbleTicks() - tickDelta;
         float wobbleStrength = entity.getDamageWobbleStrength() - tickDelta;
+
         if (wobbleStrength < 0.0F) {
             wobbleStrength = 0.0F;
         }

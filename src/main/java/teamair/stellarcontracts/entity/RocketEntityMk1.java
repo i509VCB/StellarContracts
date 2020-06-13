@@ -77,6 +77,7 @@ public class RocketEntityMk1 extends Entity {
                 } else {
                     // TODO: Drop contents
                     this.remove();
+
                     if (this.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
                         // TODO: Drop the item with the custom name
                     }
