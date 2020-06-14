@@ -13,5 +13,6 @@ public class StellarContractsClient implements ClientModInitializer {
         ClientSidePacketRegistry.INSTANCE.register(SpawnPacketHelper.SPAWN_PACKET, ClientNetworking::spawnNonLivingEntity);
 
         EntityRenderers.init();
+        StellarScreens.init();
     }
 }
