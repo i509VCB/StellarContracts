@@ -10,5 +10,6 @@ public final class StellarRegistries {
         StellarBlockEntities.init();
         StellarEntities.init();
         StellarGUIs.init();
+        StellarContractTypes.init();
     }
 }
