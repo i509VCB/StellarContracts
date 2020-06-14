@@ -1,5 +1,7 @@
 {
   "item.stellar_contracts.communicator": "Communicator",
 
-  "itemGroup.stellar_contracts.item_group": "Stellar Contracts"
+  "itemGroup.stellar_contracts.item_group": "Stellar Contracts",
+
+  "text.stellar_contracts.test": "Test"
 }
