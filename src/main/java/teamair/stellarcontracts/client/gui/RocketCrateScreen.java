@@ -6,6 +6,7 @@ import spinnery.client.screen.BaseContainerScreen;
 import spinnery.widget.*;
 import spinnery.widget.api.Position;
 import spinnery.widget.api.Size;
+import teamair.stellarcontracts.container.RocketCrateContainer;
 
 public class RocketCrateScreen extends BaseContainerScreen<RocketCrateContainer> {
     private static final Text TOP = new TranslatableText("texts.stellar_contracts.rocket_crate_top_name");

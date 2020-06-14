@@ -1,4 +1,4 @@
-package teamair.stellarcontracts.client.gui;
+package teamair.stellarcontracts.container;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

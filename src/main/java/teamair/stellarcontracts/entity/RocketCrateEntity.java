@@ -1,8 +1,6 @@
 package teamair.stellarcontracts.entity;
 
-import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -14,14 +12,11 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import teamair.stellarcontracts.StellarContracts;
 import teamair.stellarcontracts.registry.StellarGUIs;
@@ -109,20 +104,7 @@ public class RocketCrateEntity extends Entity {
 
     @Override
     public Packet<?> createSpawnPacket() {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeVarInt(this.getEntityId());
-        buf.writeUuid(this.getUuid());
-        buf.writeIdentifier(Registry.ENTITY_TYPE.getId(this.getType()));
-        buf.writeDouble(this.getX());
-        buf.writeDouble(this.getY());
-        buf.writeDouble(this.getZ());
-        buf.writeByte(MathHelper.floor(this.pitch * 256.0F / 360.0F));
-        buf.writeByte(MathHelper.floor(this.yaw * 256.0F / 360.0F));
-        buf.writeShort((int) (MathHelper.clamp(this.getVelocity().getX(), -3.9D, 3.9D) * 8000.0D));
-        buf.writeShort((int) (MathHelper.clamp(this.getVelocity().getY(), -3.9D, 3.9D) * 8000.0D));
-        buf.writeShort((int) (MathHelper.clamp(this.getVelocity().getZ(), -3.9D, 3.9D) * 8000.0D));
-
-        return ServerSidePacketRegistry.INSTANCE.toPacket(SPAWN_PACKET, buf);
+        return SpawnPacketHelper.createNonLivingPacket(this);
     }
 
     @Override
@@ -173,9 +155,9 @@ public class RocketCrateEntity extends Entity {
                     getPos().x + 5 / 16f,
                     getPos().y,
                     getPos().z + 5 / 16f,
-                    RandomUtilities.center_random() * deviation,
+                    RandomUtilities.centeredRandom() * deviation,
                     -speed,
-                    RandomUtilities.center_random() * deviation
+                    RandomUtilities.centeredRandom() * deviation
                 );
 
                 this.world.addParticle(
@@ -183,9 +165,9 @@ public class RocketCrateEntity extends Entity {
                     getPos().x - 5 / 16f,
                     getPos().y,
                     getPos().z + 5 / 16f,
-                    RandomUtilities.center_random() * deviation,
+                    RandomUtilities.centeredRandom() * deviation,
                     -speed,
-                    RandomUtilities.center_random() * deviation
+                    RandomUtilities.centeredRandom() * deviation
                 );
 
                 this.world.addParticle(
@@ -193,9 +175,9 @@ public class RocketCrateEntity extends Entity {
                     getPos().x - 5 / 16f,
                     getPos().y,
                     getPos().z - 5 / 16f,
-                    RandomUtilities.center_random() * deviation,
+                    RandomUtilities.centeredRandom() * deviation,
                     -speed,
-                    RandomUtilities.center_random() * deviation
+                    RandomUtilities.centeredRandom() * deviation
                 );
 
                 this.world.addParticle(
@@ -203,9 +185,9 @@ public class RocketCrateEntity extends Entity {
                     getPos().x + 5 / 16f,
                     getPos().y,
                     getPos().z - 5 / 16f,
-                    RandomUtilities.center_random() * deviation,
+                    RandomUtilities.centeredRandom() * deviation,
                     -speed,
-                    RandomUtilities.center_random() * deviation
+                    RandomUtilities.centeredRandom() * deviation
                 );
             }
         }
