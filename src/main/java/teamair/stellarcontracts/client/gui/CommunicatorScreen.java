@@ -37,7 +37,6 @@ public class CommunicatorScreen extends BaseContainerScreen<CommunicatorContaine
             if (!this.isHidden()) {
                 float x = this.getX();
                 float y = this.getY();
-                float z = this.getZ();
                 int sX = 180;
                 int sY = 180;
                 BaseRenderer.getTextureManager().bindTexture(id("textures/gui/comm.png"));
