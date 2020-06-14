@@ -1,5 +1,7 @@
 package teamair.stellarcontracts.client.gui;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
@@ -12,9 +14,11 @@ import spinnery.widget.WSlot;
 import spinnery.widget.api.Position;
 import spinnery.widget.api.Size;
 import spinnery.widget.api.WLayoutElement;
+import teamair.stellarcontracts.container.CommunicatorContainer;
 
 import static teamair.stellarcontracts.StellarContracts.id;
 
+@Environment(EnvType.CLIENT)
 public class CommunicatorScreen extends BaseContainerScreen<CommunicatorContainer> {
     public CommunicatorScreen(CommunicatorContainer linkedContainer) {
         super(linkedContainer.text, linkedContainer, linkedContainer.player);

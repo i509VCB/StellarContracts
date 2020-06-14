@@ -1,4 +1,4 @@
-package teamair.stellarcontracts.blockentity;
+package teamair.stellarcontracts.block.entity;
 
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.Tickable;
