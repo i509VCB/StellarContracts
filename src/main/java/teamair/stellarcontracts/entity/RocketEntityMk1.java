@@ -16,17 +16,14 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import teamair.stellarcontracts.StellarContracts;
 import teamair.stellarcontracts.util.RandomUtilities;
 
 public class RocketEntityMk1 extends Entity {
-    public static final Identifier SPAWN_PACKET = StellarContracts.id("spawn/rocket_mk1");
     private static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.FLOAT);
@@ -46,10 +43,12 @@ public class RocketEntityMk1 extends Entity {
 
     @Override
     protected void readCustomDataFromTag(CompoundTag tag) {
+        tag.getBoolean("Launched");
     }
 
     @Override
     protected void writeCustomDataToTag(CompoundTag tag) {
+        tag.putBoolean("Launched", this.dataTracker.get(LAUNCHED));
     }
 
     @Override
@@ -112,20 +111,7 @@ public class RocketEntityMk1 extends Entity {
 
     @Override
     public Packet<?> createSpawnPacket() {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeVarInt(this.getEntityId());
-        buf.writeUuid(this.getUuid());
-        buf.writeIdentifier(Registry.ENTITY_TYPE.getId(this.getType()));
-        buf.writeDouble(this.getX());
-        buf.writeDouble(this.getY());
-        buf.writeDouble(this.getZ());
-        buf.writeByte(MathHelper.floor(this.pitch * 256.0F / 360.0F));
-        buf.writeByte(MathHelper.floor(this.yaw * 256.0F / 360.0F));
-        buf.writeShort((int) (MathHelper.clamp(this.getVelocity().getX(), -3.9D, 3.9D) * 8000.0D));
-        buf.writeShort((int) (MathHelper.clamp(this.getVelocity().getY(), -3.9D, 3.9D) * 8000.0D));
-        buf.writeShort((int) (MathHelper.clamp(this.getVelocity().getZ(), -3.9D, 3.9D) * 8000.0D));
-
-        return ServerSidePacketRegistry.INSTANCE.toPacket(SPAWN_PACKET, buf);
+        return SpawnPacketHelper.createNonLivingPacket(this);
     }
 
     public void setDamageWobbleStrength(float strength) {
@@ -205,9 +191,9 @@ public class RocketEntityMk1 extends Entity {
                         getPos().x,
                         getPos().y,
                         getPos().z,
-                        RandomUtilities.center_random() * deviation,
+                        RandomUtilities.centeredRandom() * deviation,
                         -speed,
-                        RandomUtilities.center_random() * deviation
+                        RandomUtilities.centeredRandom() * deviation
                     );
 
                     // Smoke particles live for less time that flame particles
@@ -216,9 +202,9 @@ public class RocketEntityMk1 extends Entity {
                         getPos().x,
                         getPos().y,
                         getPos().z,
-                        RandomUtilities.center_random() * deviation,
+                        RandomUtilities.centeredRandom() * deviation,
                         -speed * 2,
-                        RandomUtilities.center_random() * deviation
+                        RandomUtilities.centeredRandom() * deviation
                     );
                 }
             }

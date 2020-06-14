@@ -4,7 +4,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.registry.Registry;
 import teamair.stellarcontracts.StellarContracts;
-import teamair.stellarcontracts.blockentity.LaunchPadBlockEntity;
+import teamair.stellarcontracts.block.entity.LaunchPadBlockEntity;
 
 public final class StellarBlockEntities {
     public static final BlockEntityType<LaunchPadBlockEntity> LAUNCH_PAD = register("launch_pad",

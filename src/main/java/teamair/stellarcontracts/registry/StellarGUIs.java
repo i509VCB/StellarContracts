@@ -3,7 +3,7 @@ package teamair.stellarcontracts.registry;
 import net.fabricmc.fabric.api.client.screen.ScreenProviderRegistry;
 import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
 import net.minecraft.util.Identifier;
-import teamair.stellarcontracts.client.gui.CommunicatorContainer;
+import teamair.stellarcontracts.container.CommunicatorContainer;
 import teamair.stellarcontracts.client.gui.CommunicatorScreen;
 
 import static teamair.stellarcontracts.StellarContracts.id;
