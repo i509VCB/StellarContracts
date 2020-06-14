@@ -13,18 +13,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import teamair.stellarcontracts.StellarContracts;
+import teamair.stellarcontracts.client.StellarSounds;
 import teamair.stellarcontracts.registry.StellarGUIs;
 import teamair.stellarcontracts.util.RandomUtilities;
 
 public class RocketCrateEntity extends Entity {
     public static final Identifier SPAWN_PACKET = StellarContracts.id("spawn/rocket_crate");
     private final SimpleInventory inventory;
+
+    private float soundLastTime = System.nanoTime() / 1_000_000_000f;
+    private float soundTimer = 0;
 
     public RocketCrateEntity(EntityType<? extends RocketCrateEntity> type, World world) {
         super(type, world);
@@ -93,6 +98,7 @@ public class RocketCrateEntity extends Entity {
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
         if (player.world.isClient()) {
+            this.world.playSound(this.getPos().x, this.getPos().y, this.getPos().z, StellarSounds.ROCKET_CRATE_OPEN, SoundCategory.NEUTRAL, 0.75F, 1.0F, false);
             return super.interact(player, hand);
         }
 
@@ -143,6 +149,8 @@ public class RocketCrateEntity extends Entity {
 
         if (this.world.isClient()) {
 
+            playSoundEffects();
+
             // TODO move this to a config file
             float deviation = 0.02f;
             float speed = (float) (0.1f - this.getVelocity().y * 1.25);
@@ -191,6 +199,18 @@ public class RocketCrateEntity extends Entity {
                 );
             }
         }
+    }
+
+    private void playSoundEffects() {
+        if (soundTimer <= 0) {
+            this.world.playSound(this.getPos().x, this.getPos().y, this.getPos().z, StellarSounds.ROCKET_THRUST, SoundCategory.NEUTRAL, 1.0F, 1.0F, false);
+            soundTimer = 0.6f;
+        }
+
+        float now = System.nanoTime() / 1_000_000_000f;
+        float delta = now - soundLastTime;
+        soundLastTime = now;
+        soundTimer -= delta;
     }
 
     @Override

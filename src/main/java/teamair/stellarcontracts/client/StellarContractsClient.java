@@ -14,5 +14,6 @@ public class StellarContractsClient implements ClientModInitializer {
 
         EntityRenderers.init();
         StellarScreens.init();
+        StellarSounds.init();
     }
 }
