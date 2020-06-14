@@ -19,7 +19,7 @@ import java.util.UUID;
 final class ClientNetworking {
     private static final Logger LOGGER = LogManager.getLogger(StellarContracts.class);
 
-    static void spawnRocket(PacketContext context, PacketByteBuf buf) {
+    static void spawnNonLivingEntity(PacketContext context, PacketByteBuf buf) {
         int entityId = buf.readVarInt();
         UUID entityUuid = buf.readUuid();
         Identifier typeId = buf.readIdentifier();

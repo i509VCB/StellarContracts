@@ -1,7 +1,5 @@
 package teamair.stellarcontracts.entity;
 
-import io.netty.buffer.Unpooled;
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MovementType;
@@ -12,25 +10,24 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import teamair.stellarcontracts.StellarContracts;
+import teamair.stellarcontracts.client.StellarSounds;
 import teamair.stellarcontracts.util.RandomUtilities;
 
 public class RocketEntityMk1 extends Entity {
-    public static final Identifier SPAWN_PACKET = StellarContracts.id("spawn/rocket_mk1");
     private static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Boolean> LAUNCHED = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.BOOLEAN);
+
+    private float soundLastTime = System.nanoTime() / 1_000_000_000f;
+    private float soundTimer = 0;
 
     public RocketEntityMk1(EntityType<? extends RocketEntityMk1> type, World world) {
         super(type, world);
@@ -46,10 +43,12 @@ public class RocketEntityMk1 extends Entity {
 
     @Override
     protected void readCustomDataFromTag(CompoundTag tag) {
+        tag.getBoolean("Launched");
     }
 
     @Override
     protected void writeCustomDataToTag(CompoundTag tag) {
+        tag.putBoolean("Launched", this.dataTracker.get(LAUNCHED));
     }
 
     @Override
@@ -112,20 +111,7 @@ public class RocketEntityMk1 extends Entity {
 
     @Override
     public Packet<?> createSpawnPacket() {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeVarInt(this.getEntityId());
-        buf.writeUuid(this.getUuid());
-        buf.writeIdentifier(Registry.ENTITY_TYPE.getId(this.getType()));
-        buf.writeDouble(this.getX());
-        buf.writeDouble(this.getY());
-        buf.writeDouble(this.getZ());
-        buf.writeByte(MathHelper.floor(this.pitch * 256.0F / 360.0F));
-        buf.writeByte(MathHelper.floor(this.yaw * 256.0F / 360.0F));
-        buf.writeShort((int) (MathHelper.clamp(this.getVelocity().getX(), -3.9D, 3.9D) * 8000.0D));
-        buf.writeShort((int) (MathHelper.clamp(this.getVelocity().getY(), -3.9D, 3.9D) * 8000.0D));
-        buf.writeShort((int) (MathHelper.clamp(this.getVelocity().getZ(), -3.9D, 3.9D) * 8000.0D));
-
-        return ServerSidePacketRegistry.INSTANCE.toPacket(SPAWN_PACKET, buf);
+        return SpawnPacketHelper.createNonLivingPacket(this);
     }
 
     public void setDamageWobbleStrength(float strength) {
@@ -182,7 +168,6 @@ public class RocketEntityMk1 extends Entity {
         }
 
         if (isLaunched()) {
-
             // Move the rocket to space
             this.addVelocity(0, 0.01, 0.0);
             // Add an angle at the end of the launch
@@ -192,6 +177,8 @@ public class RocketEntityMk1 extends Entity {
 
             // We don't need the particles to be sync with the server
             if (this.world.isClient()) {
+
+                playSoundEffects();
 
                 // TODO move this to a config file
                 float deviation = 0.10f;
@@ -205,9 +192,9 @@ public class RocketEntityMk1 extends Entity {
                         getPos().x,
                         getPos().y,
                         getPos().z,
-                        RandomUtilities.center_random() * deviation,
+                        RandomUtilities.centeredRandom() * deviation,
                         -speed,
-                        RandomUtilities.center_random() * deviation
+                        RandomUtilities.centeredRandom() * deviation
                     );
 
                     // Smoke particles live for less time that flame particles
@@ -216,13 +203,25 @@ public class RocketEntityMk1 extends Entity {
                         getPos().x,
                         getPos().y,
                         getPos().z,
-                        RandomUtilities.center_random() * deviation,
+                        RandomUtilities.centeredRandom() * deviation,
                         -speed * 2,
-                        RandomUtilities.center_random() * deviation
+                        RandomUtilities.centeredRandom() * deviation
                     );
                 }
             }
         }
+    }
+
+    private void playSoundEffects() {
+        if (soundTimer <= 0) {
+            this.world.playSound(this.getPos().x, this.getPos().y, this.getPos().z, StellarSounds.ROCKET_THRUST, SoundCategory.NEUTRAL, 1.0F, 1.0F, false);
+            soundTimer = 0.6f;
+        }
+
+        float now = System.nanoTime() / 1_000_000_000f;
+        float delta = now - soundLastTime;
+        soundLastTime = now;
+        soundTimer -= delta;
     }
 
     @Override

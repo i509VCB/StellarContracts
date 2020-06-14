@@ -1,7 +1,10 @@
 {
   "item.stellar_contracts.communicator": "Communicator",
 
+  "block.stellar_contracts.launch_pad": "Launch Pad",
+
   "itemGroup.stellar_contracts.item_group": "Stellar Contracts",
 
-  "text.stellar_contracts.test": "Test"
+  "texts.stellar_contracts.rocket_crate_top_name": "Rocket Crate",
+  "texts.stellar_contracts.rocket_crate_bottom_name": "Inventory"
 }

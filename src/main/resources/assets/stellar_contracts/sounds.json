@@ -1,0 +1,14 @@
+{
+  "rocket_thrust": {
+    "sounds": ["stellar_contracts:rocket_thrust"],
+    "replace": false,
+    "subtitle": "Rocket thrust"
+  },
+  "rocket_crate_open": {
+    "sounds": [
+      "stellar_contracts:rocket_crate_open"
+    ],
+    "replace": false,
+    "subtitle": "Rocket crate opening"
+  }
+}
