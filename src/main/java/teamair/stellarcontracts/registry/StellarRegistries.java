@@ -11,5 +11,6 @@ public final class StellarRegistries {
         StellarEntities.init();
         StellarGUIs.init();
         StellarContractTypes.init();
+        StellarSounds.init();
     }
 }

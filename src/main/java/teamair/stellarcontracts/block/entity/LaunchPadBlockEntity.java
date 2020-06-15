@@ -17,8 +17,9 @@ public class LaunchPadBlockEntity extends BlockEntity implements Tickable {
 
     @Override
     public void tick() {
-        if (this.world.isClient()) return;
+        if (this.hasWorld() || this.getWorld().isClient()) return;
 
+        //noinspection ConstantConditions
         if (this.world.getTime() % 40 == 0) {
             List<RocketEntityMk1> rockets = this.world.getEntities(StellarEntities.ROCKET_MK1,
                 new Box(getPos().add(0, 1, 0), getPos().add(1, 4, 1)),
@@ -26,6 +27,7 @@ public class LaunchPadBlockEntity extends BlockEntity implements Tickable {
 
             if (rockets.isEmpty()) {
                 RocketEntityMk1 rocket = StellarEntities.ROCKET_MK1.create(this.world);
+                //noinspection ConstantConditions
                 rocket.refreshPositionAndAngles(getPos().up(), 0, 0);
                 this.world.spawnEntity(rocket);
             }

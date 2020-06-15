@@ -16,16 +16,13 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
-import teamair.stellarcontracts.StellarContracts;
-import teamair.stellarcontracts.client.StellarSounds;
+import teamair.stellarcontracts.registry.StellarSounds;
 import teamair.stellarcontracts.registry.StellarGUIs;
-import teamair.stellarcontracts.util.RandomUtilities;
+import teamair.stellarcontracts.util.StellarUtilities;
 
 public class RocketCrateEntity extends Entity {
-    public static final Identifier SPAWN_PACKET = StellarContracts.id("spawn/rocket_crate");
     private final SimpleInventory inventory;
 
     private float soundLastTime = System.nanoTime() / 1_000_000_000f;
@@ -163,9 +160,9 @@ public class RocketCrateEntity extends Entity {
                     getPos().x + 5 / 16f,
                     getPos().y,
                     getPos().z + 5 / 16f,
-                    RandomUtilities.centeredRandom() * deviation,
+                    StellarUtilities.centeredRandom() * deviation,
                     -speed,
-                    RandomUtilities.centeredRandom() * deviation
+                    StellarUtilities.centeredRandom() * deviation
                 );
 
                 this.world.addParticle(
@@ -173,9 +170,9 @@ public class RocketCrateEntity extends Entity {
                     getPos().x - 5 / 16f,
                     getPos().y,
                     getPos().z + 5 / 16f,
-                    RandomUtilities.centeredRandom() * deviation,
+                    StellarUtilities.centeredRandom() * deviation,
                     -speed,
-                    RandomUtilities.centeredRandom() * deviation
+                    StellarUtilities.centeredRandom() * deviation
                 );
 
                 this.world.addParticle(
@@ -183,9 +180,9 @@ public class RocketCrateEntity extends Entity {
                     getPos().x - 5 / 16f,
                     getPos().y,
                     getPos().z - 5 / 16f,
-                    RandomUtilities.centeredRandom() * deviation,
+                    StellarUtilities.centeredRandom() * deviation,
                     -speed,
-                    RandomUtilities.centeredRandom() * deviation
+                    StellarUtilities.centeredRandom() * deviation
                 );
 
                 this.world.addParticle(
@@ -193,9 +190,9 @@ public class RocketCrateEntity extends Entity {
                     getPos().x + 5 / 16f,
                     getPos().y,
                     getPos().z - 5 / 16f,
-                    RandomUtilities.centeredRandom() * deviation,
+                    StellarUtilities.centeredRandom() * deviation,
                     -speed,
-                    RandomUtilities.centeredRandom() * deviation
+                    StellarUtilities.centeredRandom() * deviation
                 );
             }
         }

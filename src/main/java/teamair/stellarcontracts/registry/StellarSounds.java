@@ -1,4 +1,4 @@
-package teamair.stellarcontracts.client;
+package teamair.stellarcontracts.registry;
 
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.registry.Registry;
