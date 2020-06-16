@@ -1,7 +1,7 @@
 package teamair.stellarcontracts.util;
 
-public final class RandomUtilities {
-    private RandomUtilities() {
+public final class StellarUtilities {
+    private StellarUtilities() {
     }
 
     /**

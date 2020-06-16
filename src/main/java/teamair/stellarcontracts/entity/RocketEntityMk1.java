@@ -17,8 +17,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import teamair.stellarcontracts.client.StellarSounds;
-import teamair.stellarcontracts.util.RandomUtilities;
+import teamair.stellarcontracts.registry.StellarSounds;
+import teamair.stellarcontracts.util.StellarUtilities;
 
 public class RocketEntityMk1 extends Entity {
     private static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.INTEGER);
@@ -192,9 +192,9 @@ public class RocketEntityMk1 extends Entity {
                         getPos().x,
                         getPos().y,
                         getPos().z,
-                        RandomUtilities.centeredRandom() * deviation,
+                        StellarUtilities.centeredRandom() * deviation,
                         -speed,
-                        RandomUtilities.centeredRandom() * deviation
+                        StellarUtilities.centeredRandom() * deviation
                     );
 
                     // Smoke particles live for less time that flame particles
@@ -203,9 +203,9 @@ public class RocketEntityMk1 extends Entity {
                         getPos().x,
                         getPos().y,
                         getPos().z,
-                        RandomUtilities.centeredRandom() * deviation,
+                        StellarUtilities.centeredRandom() * deviation,
                         -speed * 2,
-                        RandomUtilities.centeredRandom() * deviation
+                        StellarUtilities.centeredRandom() * deviation
                     );
                 }
             }
