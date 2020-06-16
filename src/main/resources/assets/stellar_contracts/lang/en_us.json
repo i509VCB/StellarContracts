@@ -1,5 +1,21 @@
 {
   "item.stellar_contracts.communicator": "Communicator",
+  "item.stellar_contracts.metatanium_ingot": "Metatanium Ingot",
+  "item.stellar_contracts.metatanium_plate": "Metatanium Plate",
+  "item.stellar_contracts.basic_circuit": "Basic Circuit",
+  "item.stellar_contracts.advanced_circuit": "Advanced Circuit",
+  "item.stellar_contracts.alien_circuit": "Alien Circuit",
+  "item.stellar_contracts.canister": "Canister",
+  "item.stellar_contracts.activated_iodzium_canister": "Activated Iodzium Canister",
+  "item.stellar_contracts.rocket_fuel_canister": "Rocket Fuel Canister",
+  "item.stellar_contracts.computational_core": "Computational Core",
+  "item.stellar_contracts.holoprojector": "Holo-Projector",
+  "item.stellar_contracts.tracking_circuit": "Tracking Circuit",
+  "item.stellar_contracts.rocket_engine": "Rocket Engine",
+  "item.stellar_contracts.iodzium_crystal": "Iodzium Crystal",
+  "item.stellar_contracts.holosight": "Holo-Sight",
+  "item.stellar_contracts.gauss_accelerator": "Gauss Accelerator",
+  "item.stellar_contracts.plasma_magazine": "Plasma Magazine",
 
   "block.stellar_contracts.launch_pad": "Launch Pad",
 
