@@ -18,19 +18,19 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
-import teamair.stellarcontracts.registry.StellarSounds;
 import teamair.stellarcontracts.registry.StellarGUIs;
+import teamair.stellarcontracts.registry.StellarSounds;
 import teamair.stellarcontracts.util.StellarUtilities;
 
 public class RocketCrateEntity extends Entity {
-    private final SimpleInventory inventory;
+    private final SimpleInventory inventory = new SimpleInventory(9 * 3);
+    private boolean pressurized = true;
 
     private float soundLastTime = System.nanoTime() / 1_000_000_000f;
     private float soundTimer = 0;
 
     public RocketCrateEntity(EntityType<? extends RocketCrateEntity> type, World world) {
         super(type, world);
-        inventory = new SimpleInventory(9 * 3);
     }
 
     @Override
@@ -43,12 +43,12 @@ public class RocketCrateEntity extends Entity {
 
     @Override
     protected void readCustomDataFromTag(CompoundTag tag) {
-        inventory.readTags(tag.getList("items", 10));
+        StellarUtilities.readInventory(tag, "items", inventory);
     }
 
     @Override
     protected void writeCustomDataToTag(CompoundTag tag) {
-        tag.put("items", inventory.getTags());
+        StellarUtilities.writeInventory(tag, "items", inventory);
     }
 
     @Override
@@ -95,7 +95,10 @@ public class RocketCrateEntity extends Entity {
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
         if (player.world.isClient()) {
-            this.world.playSound(this.getPos().x, this.getPos().y, this.getPos().z, StellarSounds.ROCKET_CRATE_OPEN, SoundCategory.NEUTRAL, 0.75F, 1.0F, false);
+            if (this.pressurized) {
+                this.world.playSound(this.getPos().x, this.getPos().y, this.getPos().z, StellarSounds.ROCKET_CRATE_OPEN, SoundCategory.NEUTRAL, 0.75F, 1.0F, false);
+                this.pressurized = false;
+            }
             return super.interact(player, hand);
         }
 
@@ -119,7 +122,7 @@ public class RocketCrateEntity extends Entity {
         }
 
         // If the block has landed on ground do nothing
-        if(this.isOnGround()) return;
+        if (this.isOnGround()) return;
 
         int maxHeight = 10;
         int height = maxHeight;

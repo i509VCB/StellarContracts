@@ -17,11 +17,10 @@ public class RocketCrateContainer extends BaseContainer {
         this.id = id;
 
         WInterface mainInterface = getInterface();
-        WSlot.addHeadlessPlayerInventory(mainInterface);
-
         RocketCrateEntity e = (RocketCrateEntity) player.world.getEntityById(id);
 
         addInventory(1, e.getInventory());
-        WSlot.addHeadlessArray(mainInterface, 36, 1, 9, 3);
+        WSlot.addHeadlessArray(mainInterface, 0, 1, 9, 3);
+        WSlot.addHeadlessPlayerInventory(mainInterface);
     }
 }

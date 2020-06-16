@@ -25,17 +25,6 @@ public class RocketCrateScreen extends BaseContainerScreen<RocketCrateContainer>
         mainPanel.center();
 
         mainPanel.add(new WStaticText()
-            .setText(TOP)
-            .setPosition(Position.of(mainPanel, 8, 5)));
-
-        WSlot.addArray(
-            Position.of(mainPanel, 8, 16),
-            Size.of(18, 18),
-            mainPanel,
-            36, 1, 9, 3
-        );
-
-        mainPanel.add(new WStaticText()
             .setText(BOTTOM)
             .setPosition(Position.of(mainPanel, 8, 72)));
 
@@ -43,6 +32,17 @@ public class RocketCrateScreen extends BaseContainerScreen<RocketCrateContainer>
             Position.of(mainPanel, 8, 84, 1),
             Size.of(18, 18),
             mainPanel
+        );
+
+        mainPanel.add(new WStaticText()
+            .setText(TOP)
+            .setPosition(Position.of(mainPanel, 8, 5)));
+
+        WSlot.addArray(
+            Position.of(mainPanel, 8, 16),
+            Size.of(18, 18),
+            mainPanel,
+            0, 1, 9, 3
         );
 
         mainInterface.add(mainPanel);
