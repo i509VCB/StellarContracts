@@ -1,5 +1,6 @@
 package teamair.stellarcontracts.entity;
 
+import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MovementType;
@@ -8,6 +9,7 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.particle.ParticleTypes;
@@ -15,8 +17,8 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Box;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import teamair.stellarcontracts.registry.StellarGUIs;
 import teamair.stellarcontracts.registry.StellarSounds;
 import teamair.stellarcontracts.util.StellarUtilities;
 
@@ -25,7 +27,10 @@ public class RocketEntityMk1 extends Entity {
     private static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Boolean> LAUNCHED = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.BOOLEAN);
+    public static final int MAX_FUEL = 16000;
 
+    private final SimpleInventory inventory = new SimpleInventory();
+    private int fuel = 0;
     private float soundLastTime = System.nanoTime() / 1_000_000_000f;
     private float soundTimer = 0;
 
@@ -43,12 +48,15 @@ public class RocketEntityMk1 extends Entity {
 
     @Override
     protected void readCustomDataFromTag(CompoundTag tag) {
-        tag.getBoolean("Launched");
+        StellarUtilities.readInventory(tag, "inventory", inventory);
+        setLaunched(tag.getBoolean("launched"));
+        fuel = tag.getInt("fuel");
     }
 
     @Override
     protected void writeCustomDataToTag(CompoundTag tag) {
-        tag.putBoolean("Launched", this.dataTracker.get(LAUNCHED));
+        StellarUtilities.writeInventory(tag, "inventory", inventory);
+        tag.putBoolean("launched", isLaunched());
     }
 
     @Override
@@ -76,16 +84,8 @@ public class RocketEntityMk1 extends Entity {
             boolean isCreative = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity) source.getAttacker()).abilities.creativeMode;
 
             if (isCreative || this.getDamageWobbleStrength() > 40.0F) {
-                if (isCreative && !this.hasCustomName()) {
-                    this.remove();
-                } else {
-                    // TODO: Drop contents
-                    this.remove();
-
-                    if (this.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
-                        // TODO: Drop the item with the custom name
-                    }
-                }
+                this.remove();
+                StellarUtilities.dropInventory(inventory, getEntityWorld(), getPos());
             }
 
             return true;
@@ -105,8 +105,10 @@ public class RocketEntityMk1 extends Entity {
             return super.interact(player, hand);
         }
 
-        this.setLaunched(true);
-        return ActionResult.SUCCESS; // TODO: Implement inventory?
+        ContainerProviderRegistry.INSTANCE.openContainer(StellarGUIs.ROCKER_CONTAINER, player, (buffer) -> {
+            buffer.writeInt(this.getEntityId());
+        });
+        return ActionResult.SUCCESS;
     }
 
     @Override
@@ -144,6 +146,10 @@ public class RocketEntityMk1 extends Entity {
 
     public boolean isLaunched() {
         return this.dataTracker.get(LAUNCHED);
+    }
+
+    public SimpleInventory getInventory() {
+        return inventory;
     }
 
     @Override

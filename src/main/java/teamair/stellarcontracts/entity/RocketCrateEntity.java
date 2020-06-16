@@ -4,12 +4,10 @@ import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.particle.ParticleTypes;
@@ -76,9 +74,7 @@ public class RocketCrateEntity extends Entity {
                 this.remove();
             } else {
                 this.remove();
-                for (ItemStack i : inventory.clearToList()) {
-                    world.spawnEntity(new ItemEntity(world, getPos().x, getPos().y, getPos().z, i));
-                }
+                StellarUtilities.dropInventory(inventory, getEntityWorld(), getPos());
             }
 
             return true;
