@@ -10,6 +10,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.particle.ParticleTypes;
@@ -19,6 +20,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import teamair.stellarcontracts.registry.StellarGUIs;
+import teamair.stellarcontracts.registry.StellarItems;
 import teamair.stellarcontracts.registry.StellarSounds;
 import teamair.stellarcontracts.util.StellarUtilities;
 
@@ -27,10 +29,10 @@ public class RocketEntityMk1 extends Entity {
     private static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Boolean> LAUNCHED = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.BOOLEAN);
-    public static final int MAX_FUEL = 16000;
+    private static final TrackedData<Integer> FUEL = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.INTEGER);
+    public static final int MAX_FUEL = 1000;
 
-    private final SimpleInventory inventory = new SimpleInventory();
-    private int fuel = 0;
+    private final SimpleInventory inventory = new SimpleInventory(27);
     private float soundLastTime = System.nanoTime() / 1_000_000_000f;
     private float soundTimer = 0;
 
@@ -44,19 +46,21 @@ public class RocketEntityMk1 extends Entity {
         this.dataTracker.startTracking(DAMAGE_WOBBLE_SIDE, 1);
         this.dataTracker.startTracking(DAMAGE_WOBBLE_STRENGTH, 0.0F);
         this.dataTracker.startTracking(LAUNCHED, false);
+        this.dataTracker.startTracking(FUEL, 0);
     }
 
     @Override
     protected void readCustomDataFromTag(CompoundTag tag) {
         StellarUtilities.readInventory(tag, "inventory", inventory);
         setLaunched(tag.getBoolean("launched"));
-        fuel = tag.getInt("fuel");
+        setFuel(tag.getInt("fuel"));
     }
 
     @Override
     protected void writeCustomDataToTag(CompoundTag tag) {
         StellarUtilities.writeInventory(tag, "inventory", inventory);
         tag.putBoolean("launched", isLaunched());
+        tag.putInt("fuel", getFuel());
     }
 
     @Override
@@ -105,10 +109,27 @@ public class RocketEntityMk1 extends Entity {
             return super.interact(player, hand);
         }
 
-        ContainerProviderRegistry.INSTANCE.openContainer(StellarGUIs.ROCKER_CONTAINER, player, (buffer) -> {
-            buffer.writeInt(this.getEntityId());
-        });
-        return ActionResult.SUCCESS;
+        if (!this.isLaunched()) {
+            ItemStack handItem = player.getStackInHand(hand);
+            if (!handItem.isEmpty() && (
+                handItem.getItem() == StellarItems.ROCKET_FUEL_CANISTER
+                    || handItem.getItem() == StellarItems.ACTIVATED_IODZIUM_CANISTER)) {
+
+                if (this.getFuel() < MAX_FUEL) {
+                    handItem.decrement(1);
+
+                    this.setFuel(MAX_FUEL);
+                    return ActionResult.SUCCESS;
+                }
+                return ActionResult.FAIL;
+            }
+
+            ContainerProviderRegistry.INSTANCE.openContainer(StellarGUIs.ROCKER_CONTAINER, player, (buffer) -> {
+                buffer.writeInt(this.getEntityId());
+            });
+            return ActionResult.SUCCESS;
+        }
+        return ActionResult.FAIL;
     }
 
     @Override
@@ -146,6 +167,27 @@ public class RocketEntityMk1 extends Entity {
 
     public boolean isLaunched() {
         return this.dataTracker.get(LAUNCHED);
+    }
+
+
+    public void setFuel(int fuel) {
+        this.dataTracker.set(FUEL, fuel);
+    }
+
+    public int getFuel() {
+        return this.dataTracker.get(FUEL);
+    }
+
+    public boolean tryLaunch(int destination) {
+        if (this.getFuel() >= MAX_FUEL) {
+            this.setLaunched(true);
+            return true;
+        }
+        return false;
+    }
+
+    public void cycleDestination() {
+
     }
 
     public SimpleInventory getInventory() {

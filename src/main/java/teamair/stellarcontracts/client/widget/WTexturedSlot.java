@@ -21,7 +21,7 @@ import java.util.HashSet;
 
 public class WTexturedSlot extends WSlot {
     private static final Identifier SLOT_TEXTURE = StellarContracts.id("textures/gui/slot.png");
-    private Identifier texture;
+    private Identifier texture = SLOT_TEXTURE;
 
     public Identifier getTexture() {
         return texture;
@@ -38,7 +38,6 @@ public class WTexturedSlot extends WSlot {
         for (int y = 0; y < arrayHeight; ++y) {
             for (int x = 0; x < arrayWidth; ++x) {
                 set.add(parent.createChild(WTexturedSlot::new, position.add(size.getWidth() * x, size.getHeight() * y, 0), size)
-                    .setTexture(SLOT_TEXTURE)
                     .setSlotNumber(slotNumber + y * arrayWidth + x)
                     .setInventoryNumber(inventoryNumber));
             }
