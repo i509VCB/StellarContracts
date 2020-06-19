@@ -6,68 +6,69 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.mutable.MutableInt;
 import spinnery.client.screen.BaseContainerScreen;
-import spinnery.widget.*;
+import spinnery.widget.WAbstractWidget;
+import spinnery.widget.WInterface;
+import spinnery.widget.WStaticImage;
+import spinnery.widget.WStaticText;
 import spinnery.widget.api.Position;
 import spinnery.widget.api.Size;
 import teamair.stellarcontracts.StellarContracts;
 import teamair.stellarcontracts.block.entity.LaunchPadBlockEntity;
+import teamair.stellarcontracts.client.widget.WBuildBar;
+import teamair.stellarcontracts.client.widget.WTexturedPanel;
+import teamair.stellarcontracts.client.widget.WTexturedSlot;
 import teamair.stellarcontracts.container.LaunchPadContainer;
 
 public class LaunchPadScreen extends BaseContainerScreen<LaunchPadContainer> {
-    private static final Identifier ERROR_TEXTURE = StellarContracts.id("launch_pad_error");
-    private static final Identifier BAR_FRONT_TEXTURE = StellarContracts.id("launch_pad_bar_front");
-    private static final Identifier BAR_BACK_TEXTURE = StellarContracts.id("launch_pad_bar_back");
+    private static final Identifier TEXTURE = StellarContracts.id("textures/gui/launch_pad_background.png");
+    private static final Identifier ERROR_TEXTURE = StellarContracts.id("textures/gui/cross.png");
     private static final Text TOP = new TranslatableText("texts.stellar_contracts.rocket_crate_top_name");
     private static final Text BOTTOM = new TranslatableText("texts.stellar_contracts.rocket_crate_bottom_name");
 
-    private final WHorizontalBar progressBar;
+    private final WBuildBar progressBar;
     private final WStaticImage errorIcon;
 
     public LaunchPadScreen(LaunchPadContainer linkedContainer) {
         super(TOP, linkedContainer, linkedContainer.player);
 
         WInterface mainInterface = getInterface();
-        WPanel mainPanel = mainInterface.createChild(WPanel::new,
+        WTexturedPanel mainPanel = mainInterface.createChild(WTexturedPanel::new,
             Position.of(0, 0, 0),
-            Size.of(9 * 18 + 16, 7 * 18 + 64)
+            Size.of(175, 220)
         ).setParent(mainInterface);
 
+        mainPanel.setTexture(TEXTURE);
         mainPanel.setOnAlign(WAbstractWidget::center);
         mainPanel.center();
 
-        progressBar = new WHorizontalBar()
+        progressBar = new WBuildBar()
             .setLimit(new MutableInt(LaunchPadBlockEntity.MAX_BUILD_PROGRESS))
             .setProgress(new MutableInt(linkedContainer.launchPad.getBuildProgress()))
-            .setBackgroundTexture(BAR_BACK_TEXTURE)
-            .setForegroundTexture(BAR_FRONT_TEXTURE)
-            .setSize(Size.of(162, 8))
-            .setPosition(Position.of(mainPanel, 8, 84));
+            .setSize(Size.of(150, 5))
+            .setPosition(Position.of(mainPanel, 13, 111));
         mainPanel.add(progressBar);
 
         errorIcon = new WStaticImage()
             .setTexture(ERROR_TEXTURE)
             .setHidden(true)
             .setSize(Size.of(16, 16))
-            .setPosition(Position.of(mainPanel, 32, 36));
+            .setPosition(Position.of(mainPanel, 32, 60));
         mainPanel.add(errorIcon);
 
-        mainPanel.add(new WStaticText()
-            .setText(TOP)
-            .setPosition(Position.of(mainPanel, 8, 5)));
-
-        WSlot.addArray(
-            Position.of(mainPanel, 80, 8),
+        WTexturedSlot.addTArray(
+            Position.of(mainPanel, 77, 30),
             Size.of(18, 18),
             mainPanel,
-            0, 1, 1, 4
+            0, 1, 1, 4,
+            true
         );
 
         mainPanel.add(new WStaticText()
             .setText(BOTTOM)
-            .setPosition(Position.of(mainPanel, 8, 96)));
+            .setPosition(Position.of(mainPanel, 8, 124)));
 
-        WSlot.addPlayerInventory(
-            Position.of(mainPanel, 8, 108, 1),
+        WTexturedSlot.addTPlayerInventory(
+            Position.of(mainPanel, 7, 137),
             Size.of(18, 18),
             mainPanel
         );

@@ -2,44 +2,42 @@ package teamair.stellarcontracts.client.gui;
 
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Identifier;
 import spinnery.client.screen.BaseContainerScreen;
-import spinnery.widget.*;
+import spinnery.widget.WAbstractWidget;
+import spinnery.widget.WInterface;
 import spinnery.widget.api.Position;
 import spinnery.widget.api.Size;
+import teamair.stellarcontracts.StellarContracts;
+import teamair.stellarcontracts.client.widget.WTexturedPanel;
+import teamair.stellarcontracts.client.widget.WTexturedSlot;
 import teamair.stellarcontracts.container.RocketCrateContainer;
 
 public class RocketCrateScreen extends BaseContainerScreen<RocketCrateContainer> {
+    private static final Identifier TEXTURE = StellarContracts.id("textures/gui/rocket_crate.png");
     private static final Text TOP = new TranslatableText("texts.stellar_contracts.rocket_crate_top_name");
-    private static final Text BOTTOM = new TranslatableText("texts.stellar_contracts.rocket_crate_bottom_name");
 
     public RocketCrateScreen(RocketCrateContainer linkedContainer) {
         super(TOP, linkedContainer, linkedContainer.player);
 
         WInterface mainInterface = getInterface();
-        WPanel mainPanel = mainInterface.createChild(WPanel::new,
+        WTexturedPanel mainPanel = mainInterface.createChild(WTexturedPanel::new,
             Position.of(0, 0, 0),
-            Size.of(9 * 18 + 16, 7 * 18 + 32 + 8)
+            Size.of(176, 166)
         ).setParent(mainInterface);
 
+        mainPanel.setTexture(TEXTURE);
         mainPanel.setOnAlign(WAbstractWidget::center);
         mainPanel.center();
 
-        mainPanel.add(new WStaticText()
-            .setText(BOTTOM)
-            .setPosition(Position.of(mainPanel, 8, 72)));
-
-        WSlot.addPlayerInventory(
-            Position.of(mainPanel, 8, 84, 1),
+        WTexturedSlot.addTPlayerInventory(
+            Position.of(mainPanel, 7, 83),
             Size.of(18, 18),
             mainPanel
         );
 
-        mainPanel.add(new WStaticText()
-            .setText(TOP)
-            .setPosition(Position.of(mainPanel, 8, 5)));
-
-        WSlot.addArray(
-            Position.of(mainPanel, 8, 16),
+        WTexturedSlot.addTArray(
+            Position.of(mainPanel, 7, 17),
             Size.of(18, 18),
             mainPanel,
             0, 1, 9, 3
