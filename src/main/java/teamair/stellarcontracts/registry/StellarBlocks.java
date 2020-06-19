@@ -8,11 +8,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.registry.Registry;
 import teamair.stellarcontracts.StellarContracts;
+import teamair.stellarcontracts.block.ContractMachineBlock;
 import teamair.stellarcontracts.block.LaunchPadBlock;
 
 public final class StellarBlocks {
     public static Block LAUNCH_PAD = registerWithItem("launch_pad",
         new LaunchPadBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
+        new Item.Settings());
+
+    public static Block CONTRACT_MACHINE = registerWithItem("contract_machine",
+        new ContractMachineBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
         new Item.Settings());
 
     private static Block registerWithItem(String path, Block block, Item.Settings settings) {

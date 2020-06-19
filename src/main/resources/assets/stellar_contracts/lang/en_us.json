@@ -24,5 +24,6 @@
   "texts.stellar_contracts.rocket_crate_top_name": "Rocket Crate",
   "texts.stellar_contracts.rocket_crate_bottom_name": "Inventory",
   "texts.stellar_contracts.rocket_gui_select_button": "Select",
-  "texts.stellar_contracts.rocket_gui_launch_button": "Launch"
+  "texts.stellar_contracts.rocket_gui_launch_button": "Launch",
+  "texts.stellar_contracts.contract_machine_gui_name": "Contract Machine"
 }

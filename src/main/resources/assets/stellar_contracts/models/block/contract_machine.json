@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "Stellar Contracts/contract machine",
-		"particle": "Stellar Contracts/contract machine"
+		"0": "stellar_contracts:block/contract_machine",
+		"particle": "stellar_contracts:block/contract_machine"
 	},
 	"elements": [
 		{
