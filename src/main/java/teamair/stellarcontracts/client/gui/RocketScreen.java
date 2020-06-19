@@ -44,13 +44,14 @@ public class RocketScreen extends BaseContainerScreen<RocketContainer> {
 
         options = new WSelectList();
         // TODO load this from a file or something
-        options.setOptions(Arrays.asList("Gazorpazorp", "Excitel", "Vex IX", "Ixeltol"));
+        options.setOptions(Arrays.asList("Excitel", "Vex IX", "Gazorpazorp", "Ixeltol"));
+        options.setPosition(Position.of(mainPanel, 25, 18));
         mainPanel.add(options);
 
         mainPanel.add(new WTexturedButton()
             .setLabel(SELECT_BTN)
             .setOnMouseClicked((a, b, c, d) -> {
-                options.setSelected(options.getSelected() % options.getOptions().size());
+                options.setSelected((options.getSelected() + 1) % options.getOptions().size());
             })
             .setPosition(Position.of(mainPanel, 25, 89))
             .setSize(Size.of(48, 15)));
