@@ -35,7 +35,13 @@ public class WTexturedButton extends WButton {
 
         if (!this.isHidden()) {
             if (this.hasLabel()) {
-                TextRenderer.pass().text(this.getLabel()).at(this.getX() + (this.getWidth() / 2.0F - (float) (TextRenderer.width(this.getLabel()) / 2)), this.getY() + (this.getHeight() / 2.0F - 4.0F), this.getZ()).shadow(this.getStyle().asBoolean("label.shadow")).shadowColor(this.getStyle().asColor("label.shadow_color")).color(this.getStyle().asColor("label.color")).render(matrices, provider);
+                TextRenderer.pass()
+                    .text(this.getLabel())
+                    .at(this.getX() + (this.getWidth() / 2.0F - (float) (TextRenderer.width(this.getLabel()) / 2)), this.getY() + (this.getHeight() / 2.0F - 3.0F), this.getZ())
+                    .shadow(this.getStyle().asBoolean("label.shadow"))
+                    .shadowColor(this.getStyle().asColor("label.shadow_color"))
+                    .color(this.getStyle().asColor("label.color"))
+                    .render(matrices, provider);
             }
         }
     }
