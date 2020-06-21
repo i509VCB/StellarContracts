@@ -17,7 +17,12 @@ public final class StellarBlocks {
         new Item.Settings());
 
     public static Block CONTRACT_MACHINE = registerWithItem("contract_machine",
-        new ContractMachineBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
+        new ContractMachineBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)
+            .nonOpaque()
+            .allowsSpawning((a, b, c, d) -> false)
+            .solidBlock((a, b, c) -> false)
+            .suffocates((a, b, c) -> false)
+            .blockVision((a, b, c) -> false)),
         new Item.Settings());
 
     private static Block registerWithItem(String path, Block block, Item.Settings settings) {

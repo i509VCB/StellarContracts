@@ -1,6 +1,11 @@
 {
   "rocket_thrust": {
-    "sounds": ["stellar_contracts:rocket_thrust"],
+    "sounds": [
+      {
+        "name": "stellar_contracts:rocket_thrust",
+        "attenuation_distance": 64
+      }
+    ],
     "replace": false,
     "subtitle": "Rocket thrust"
   },

@@ -223,6 +223,12 @@ public class RocketEntityMk1 extends Entity {
 
             this.move(MovementType.SELF, getVelocity());
 
+            if (this.getFuel() >= 0) {
+                this.setFuel(this.getFuel() - 1);
+            } else {
+                this.setLaunched(false);
+            }
+
             // We don't need the particles to be sync with the server
             if (this.world.isClient()) {
 
@@ -257,6 +263,10 @@ public class RocketEntityMk1 extends Entity {
                     );
                 }
             }
+        } else {
+            // Move the rocket to space
+            this.addVelocity(0, -0.1, 0);
+            this.move(MovementType.SELF, getVelocity());
         }
     }
 

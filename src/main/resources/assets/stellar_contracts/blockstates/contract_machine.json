@@ -1,7 +1,20 @@
 {
   "variants": {
-    "": {
-      "model": "stellar_contracts:block/contract_machine"
+    "facing=north": {
+      "model": "stellar_contracts:block/contract_machine",
+      "y": 0
+    },
+    "facing=south": {
+      "model": "stellar_contracts:block/contract_machine",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "stellar_contracts:block/contract_machine",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "stellar_contracts:block/contract_machine",
+      "y": 270
     }
   }
 }
