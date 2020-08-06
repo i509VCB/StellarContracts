@@ -16,24 +16,24 @@ import teamair.stellarcontracts.screenhandler.RocketCrateScreenHandler;
 import static teamair.stellarcontracts.StellarContracts.id;
 
 public final class StellarScreenHandlers {
-    public static final ScreenHandlerType<CommunicatorScreenHandler> COMMUNICATOR = ScreenHandlerRegistry.registerExtended(StellarContracts.id("communicator"), CommunicatorScreenHandler::fromPacket);
-    public static final Identifier ROCKET_CRATE_CONTAINER = id("rocket_crate");
-    public static final Identifier LAUNCH_PAD_CONTAINER = id("launch_pad");
-    public static final Identifier ROCKET_CONTAINER = id("rocket_mk1");
-    public static final Identifier CONTRACT_MACHINE = id("contract_machine");
+	public static final ScreenHandlerType<CommunicatorScreenHandler> COMMUNICATOR = ScreenHandlerRegistry.registerExtended(StellarContracts.id("communicator"), CommunicatorScreenHandler::fromPacket);
+	public static final Identifier ROCKET_CRATE_CONTAINER = id("rocket_crate");
+	public static final Identifier LAUNCH_PAD_CONTAINER = id("launch_pad");
+	public static final Identifier ROCKET_CONTAINER = id("rocket_mk1");
+	public static final Identifier CONTRACT_MACHINE = id("contract_machine");
 
-    static void init() {
-        // TODO: To be ported
-        ContainerProviderRegistry.INSTANCE.registerFactory(ROCKET_CRATE_CONTAINER,
-                (syncId, id, player, buf) -> new RocketCrateScreenHandler(syncId, buf.readInt(), player.inventory));
-        ContainerProviderRegistry.INSTANCE.registerFactory(LAUNCH_PAD_CONTAINER,
-                (syncId, id, player, buf) -> new LaunchPadScreenHandler(syncId, buf.readBlockPos(), player.inventory));
-        ContainerProviderRegistry.INSTANCE.registerFactory(ROCKET_CONTAINER,
-                (syncId, id, player, buf) -> new RocketMk1ScreenHandler(syncId, buf.readInt(), player.inventory));
-        ContainerProviderRegistry.INSTANCE.registerFactory(CONTRACT_MACHINE,
-                (syncId, id, player, buf) -> new ContractMachineScreenHandler(syncId, buf.readBlockPos(), player.inventory));
-    }
+	static void init() {
+		// TODO: To be ported
+		ContainerProviderRegistry.INSTANCE.registerFactory(ROCKET_CRATE_CONTAINER,
+				(syncId, id, player, buf) -> new RocketCrateScreenHandler(syncId, buf.readInt(), player.inventory));
+		ContainerProviderRegistry.INSTANCE.registerFactory(LAUNCH_PAD_CONTAINER,
+				(syncId, id, player, buf) -> new LaunchPadScreenHandler(syncId, buf.readBlockPos(), player.inventory));
+		ContainerProviderRegistry.INSTANCE.registerFactory(ROCKET_CONTAINER,
+				(syncId, id, player, buf) -> new RocketMk1ScreenHandler(syncId, buf.readInt(), player.inventory));
+		ContainerProviderRegistry.INSTANCE.registerFactory(CONTRACT_MACHINE,
+				(syncId, id, player, buf) -> new ContractMachineScreenHandler(syncId, buf.readBlockPos(), player.inventory));
+	}
 
-    private StellarScreenHandlers() {
-    }
+	private StellarScreenHandlers() {
+	}
 }

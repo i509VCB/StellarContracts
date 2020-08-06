@@ -10,17 +10,17 @@ import teamair.stellarcontracts.registry.StellarScreenHandlers;
 
 @Environment(EnvType.CLIENT)
 final class StellarScreens {
-    static void init() {
-        // Screens
-        ScreenRegistry.register(StellarScreenHandlers.COMMUNICATOR, CommunicatorScreen::new);
+	static void init() {
+		// Screens
+		ScreenRegistry.register(StellarScreenHandlers.COMMUNICATOR, CommunicatorScreen::new);
 
-        // TODO: To be ported
-        ScreenProviderRegistry.INSTANCE.registerFactory(StellarScreenHandlers.ROCKET_CRATE_CONTAINER, RocketCrateScreen::new);
-        ScreenProviderRegistry.INSTANCE.registerFactory(StellarScreenHandlers.LAUNCH_PAD_CONTAINER, LaunchPadScreen::new);
-        ScreenProviderRegistry.INSTANCE.registerFactory(StellarScreenHandlers.ROCKET_CONTAINER, RocketMk1Screen::new);
-        ScreenProviderRegistry.INSTANCE.registerFactory(StellarScreenHandlers.CONTRACT_MACHINE, ContractMachineScreen::new);
-    }
+		// TODO: To be ported
+		ScreenProviderRegistry.INSTANCE.registerFactory(StellarScreenHandlers.ROCKET_CRATE_CONTAINER, RocketCrateScreen::new);
+		ScreenProviderRegistry.INSTANCE.registerFactory(StellarScreenHandlers.LAUNCH_PAD_CONTAINER, LaunchPadScreen::new);
+		ScreenProviderRegistry.INSTANCE.registerFactory(StellarScreenHandlers.ROCKET_CONTAINER, RocketMk1Screen::new);
+		ScreenProviderRegistry.INSTANCE.registerFactory(StellarScreenHandlers.CONTRACT_MACHINE, ContractMachineScreen::new);
+	}
 
-    private StellarScreens() {
-    }
+	private StellarScreens() {
+	}
 }
