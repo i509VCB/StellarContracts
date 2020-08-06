@@ -13,11 +13,11 @@ import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import teamair.stellarcontracts.StellarContracts;
-import teamair.stellarcontracts.entity.AbstractRocketEntity;
+import teamair.stellarcontracts.entity.RocketMk1Entity;
 
 @Environment(EnvType.CLIENT)
-public class RocketMk1EntityRenderer extends EntityRenderer<AbstractRocketEntity> {
-    public static final Identifier TEXTURE = StellarContracts.id("textures/entity/rocket/mk1.png");
+public class RocketMk1EntityRenderer extends EntityRenderer<RocketMk1Entity> {
+    private static final Identifier TEXTURE = StellarContracts.id("textures/entity/rocket/mk1.png");
     private final RocketMk1EntityRenderer.Model model;
 
     public RocketMk1EntityRenderer(EntityRenderDispatcher dispatcher) {
@@ -26,12 +26,12 @@ public class RocketMk1EntityRenderer extends EntityRenderer<AbstractRocketEntity
     }
 
     @Override
-    public Identifier getTexture(AbstractRocketEntity entity) {
-        return TEXTURE;
+    public Identifier getTexture(RocketMk1Entity entity) {
+        return RocketMk1EntityRenderer.TEXTURE;
     }
 
     @Override
-    public void render(AbstractRocketEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+    public void render(RocketMk1Entity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         matrices.push();
 
         matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(180.0F));
@@ -48,14 +48,14 @@ public class RocketMk1EntityRenderer extends EntityRenderer<AbstractRocketEntity
             matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(((MathHelper.sin(wobble) * wobble * wobbleStrength) / 10.0F) * (float) entity.getDamageWobbleSide()));
         }
 
-        final VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(TEXTURE));
+        final VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(RocketMk1EntityRenderer.TEXTURE));
         this.model.render(matrices, buffer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
 
         matrices.pop();
         super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
     }
 
-    static class Model extends BaseModel<AbstractRocketEntity> {
+    static class Model extends BaseModel<RocketMk1Entity> {
         Model() {
             this.textureWidth = 64;
             this.textureHeight = 64;

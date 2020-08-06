@@ -12,13 +12,13 @@ import spinnery.widget.api.Size;
 import teamair.stellarcontracts.StellarContracts;
 import teamair.stellarcontracts.client.widget.WTexturedPanel;
 import teamair.stellarcontracts.client.widget.WTexturedSlot;
-import teamair.stellarcontracts.screenhandler.RocketCrateContainer;
+import teamair.stellarcontracts.screenhandler.RocketCrateScreenHandler;
 
-public class RocketCrateScreen extends BaseHandledScreen<RocketCrateContainer> {
+public class RocketCrateScreen extends BaseHandledScreen<RocketCrateScreenHandler> {
     private static final Identifier TEXTURE = StellarContracts.id("textures/gui/rocket_crate.png");
     private static final Text TOP = new TranslatableText("texts.stellar_contracts.rocket_crate_top_name");
 
-    public RocketCrateScreen(RocketCrateContainer linkedContainer) {
+    public RocketCrateScreen(RocketCrateScreenHandler linkedContainer) {
         super(TOP, linkedContainer, linkedContainer.player);
 
         WInterface mainInterface = this.getInterface();

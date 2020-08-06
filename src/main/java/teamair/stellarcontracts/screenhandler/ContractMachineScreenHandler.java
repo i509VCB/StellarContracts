@@ -10,12 +10,12 @@ import spinnery.widget.WSlot;
 import spinnery.widget.api.WNetworked;
 import teamair.stellarcontracts.client.widget.WNetwork;
 
-public class ContractMachineContainer extends BaseScreenHandler {
+public class ContractMachineScreenHandler extends BaseScreenHandler {
     public PlayerEntity player;
     public BlockPos pos;
 
-    public ContractMachineContainer(int synchronizationID, BlockPos pos, PlayerInventory playerInventory) {
-        super(synchronizationID, playerInventory);
+    public ContractMachineScreenHandler(int syncId, BlockPos pos, PlayerInventory playerInventory) {
+        super(syncId, playerInventory);
         this.player = playerInventory.player;
         this.pos = pos;
 
@@ -27,6 +27,7 @@ public class ContractMachineContainer extends BaseScreenHandler {
         net.setOnInterfaceEvent((event, tag) -> {
             if (event == WNetworked.Event.CUSTOM) {
                 int key = tag.getInt("key");
+
                 if (key == 0) {
                     // TODO
                 }

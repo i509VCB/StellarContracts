@@ -8,12 +8,12 @@ import spinnery.widget.WInterface;
 import spinnery.widget.WSlot;
 import teamair.stellarcontracts.entity.RocketCrateEntity;
 
-public class RocketCrateContainer extends BaseScreenHandler {
+public class RocketCrateScreenHandler extends BaseScreenHandler {
     public PlayerEntity player;
     public int id;
 
-    public RocketCrateContainer(int synchronizationID, int id, PlayerInventory playerInventory) {
-        super(synchronizationID, playerInventory);
+    public RocketCrateScreenHandler(int syncId, int id, PlayerInventory playerInventory) {
+        super(syncId, playerInventory);
         this.player = playerInventory.player;
         this.id = id;
 

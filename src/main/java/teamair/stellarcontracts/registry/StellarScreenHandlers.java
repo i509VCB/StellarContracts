@@ -8,10 +8,10 @@ import net.minecraft.util.Identifier;
 
 import teamair.stellarcontracts.StellarContracts;
 import teamair.stellarcontracts.screenhandler.CommunicatorScreenHandler;
-import teamair.stellarcontracts.screenhandler.ContractMachineContainer;
-import teamair.stellarcontracts.screenhandler.LaunchPadContainer;
-import teamair.stellarcontracts.screenhandler.RocketContainer;
-import teamair.stellarcontracts.screenhandler.RocketCrateContainer;
+import teamair.stellarcontracts.screenhandler.ContractMachineScreenHandler;
+import teamair.stellarcontracts.screenhandler.LaunchPadScreenHandler;
+import teamair.stellarcontracts.screenhandler.RocketMk1ScreenHandler;
+import teamair.stellarcontracts.screenhandler.RocketCrateScreenHandler;
 
 import static teamair.stellarcontracts.StellarContracts.id;
 
@@ -25,13 +25,13 @@ public final class StellarScreenHandlers {
     static void init() {
         // TODO: To be ported
         ContainerProviderRegistry.INSTANCE.registerFactory(ROCKET_CRATE_CONTAINER,
-                (syncId, id, player, buf) -> new RocketCrateContainer(syncId, buf.readInt(), player.inventory));
+                (syncId, id, player, buf) -> new RocketCrateScreenHandler(syncId, buf.readInt(), player.inventory));
         ContainerProviderRegistry.INSTANCE.registerFactory(LAUNCH_PAD_CONTAINER,
-                (syncId, id, player, buf) -> new LaunchPadContainer(syncId, buf.readBlockPos(), player.inventory));
+                (syncId, id, player, buf) -> new LaunchPadScreenHandler(syncId, buf.readBlockPos(), player.inventory));
         ContainerProviderRegistry.INSTANCE.registerFactory(ROCKET_CONTAINER,
-                (syncId, id, player, buf) -> new RocketContainer(syncId, buf.readInt(), player.inventory));
+                (syncId, id, player, buf) -> new RocketMk1ScreenHandler(syncId, buf.readInt(), player.inventory));
         ContainerProviderRegistry.INSTANCE.registerFactory(CONTRACT_MACHINE,
-                (syncId, id, player, buf) -> new ContractMachineContainer(syncId, buf.readBlockPos(), player.inventory));
+                (syncId, id, player, buf) -> new ContractMachineScreenHandler(syncId, buf.readBlockPos(), player.inventory));
     }
 
     private StellarScreenHandlers() {

@@ -17,9 +17,9 @@ import teamair.stellarcontracts.block.entity.LaunchPadBlockEntity;
 import teamair.stellarcontracts.client.widget.WBuildBar;
 import teamair.stellarcontracts.client.widget.WTexturedPanel;
 import teamair.stellarcontracts.client.widget.WTexturedSlot;
-import teamair.stellarcontracts.screenhandler.LaunchPadContainer;
+import teamair.stellarcontracts.screenhandler.LaunchPadScreenHandler;
 
-public class LaunchPadScreen extends BaseHandledScreen<LaunchPadContainer> {
+public class LaunchPadScreen extends BaseHandledScreen<LaunchPadScreenHandler> {
     private static final Identifier TEXTURE = StellarContracts.id("textures/gui/launch_pad_background.png");
     private static final Identifier ERROR_TEXTURE = StellarContracts.id("textures/gui/cross.png");
     private static final Text TOP = new TranslatableText("texts.stellar_contracts.rocket_crate_top_name");
@@ -28,7 +28,7 @@ public class LaunchPadScreen extends BaseHandledScreen<LaunchPadContainer> {
     private final WBuildBar progressBar;
     private final WStaticImage errorIcon;
 
-    public LaunchPadScreen(LaunchPadContainer linkedContainer) {
+    public LaunchPadScreen(LaunchPadScreenHandler linkedContainer) {
         super(TOP, linkedContainer, linkedContainer.player);
 
         WInterface mainInterface = this.getInterface();

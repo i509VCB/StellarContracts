@@ -12,14 +12,14 @@ import spinnery.widget.WSlot;
 import teamair.stellarcontracts.block.entity.LaunchPadBlockEntity;
 
 
-public class LaunchPadContainer extends BaseScreenHandler {
+public class LaunchPadScreenHandler extends BaseScreenHandler {
     public PlayerEntity player;
     public BlockPos pos;
     public LaunchPadBlockEntity launchPad;
     public ArrayPropertyDelegate syncProperties;
 
-    public LaunchPadContainer(int synchronizationID, BlockPos pos, PlayerInventory playerInventory) {
-        super(synchronizationID, playerInventory);
+    public LaunchPadScreenHandler(int syncId, BlockPos pos, PlayerInventory playerInventory) {
+        super(syncId, playerInventory);
         this.player = playerInventory.player;
         this.pos = pos;
 

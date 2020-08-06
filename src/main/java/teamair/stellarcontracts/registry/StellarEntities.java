@@ -8,10 +8,10 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.registry.Registry;
 import teamair.stellarcontracts.StellarContracts;
 import teamair.stellarcontracts.entity.RocketCrateEntity;
-import teamair.stellarcontracts.entity.AbstractRocketEntity;
+import teamair.stellarcontracts.entity.RocketMk1Entity;
 
 public final class StellarEntities {
-    public static final EntityType<AbstractRocketEntity> ROCKET_MK1 = register("rocket_mk1", FabricEntityTypeBuilder.create(SpawnGroup.MISC, AbstractRocketEntity::new)
+    public static final EntityType<RocketMk1Entity> ROCKET_MK1 = register("rocket_mk1", FabricEntityTypeBuilder.create(SpawnGroup.MISC, RocketMk1Entity::new)
             .dimensions(EntityDimensions.fixed(0.6F, 3.1F))
             .build());
 

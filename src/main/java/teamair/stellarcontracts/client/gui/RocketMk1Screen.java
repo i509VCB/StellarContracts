@@ -12,12 +12,12 @@ import spinnery.widget.api.Position;
 import spinnery.widget.api.Size;
 import teamair.stellarcontracts.StellarContracts;
 import teamair.stellarcontracts.client.widget.*;
-import teamair.stellarcontracts.screenhandler.RocketContainer;
+import teamair.stellarcontracts.screenhandler.RocketMk1ScreenHandler;
 import teamair.stellarcontracts.entity.AbstractRocketEntity;
 
 import java.util.Arrays;
 
-public class RocketScreen extends BaseHandledScreen<RocketContainer> {
+public class RocketMk1Screen extends BaseHandledScreen<RocketMk1ScreenHandler> {
     private static final Text TOP = new TranslatableText("texts.stellar_contracts.rocket_gui_name");
     private static final Text SELECT_BTN = new TranslatableText("texts.stellar_contracts.rocket_gui_select_button");
     private static final Text LAUNCH_BTN = new TranslatableText("texts.stellar_contracts.rocket_gui_launch_button");
@@ -26,7 +26,7 @@ public class RocketScreen extends BaseHandledScreen<RocketContainer> {
     private WSelectList options;
     private WFuelBar fuelBar;
 
-    public RocketScreen(RocketContainer linkedContainer) {
+    public RocketMk1Screen(RocketMk1ScreenHandler linkedContainer) {
         super(TOP, linkedContainer, linkedContainer.player);
 
         WInterface mainInterface = this.getInterface();

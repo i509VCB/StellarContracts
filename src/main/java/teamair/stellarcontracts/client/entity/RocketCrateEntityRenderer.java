@@ -16,7 +16,7 @@ import teamair.stellarcontracts.entity.RocketCrateEntity;
 
 @Environment(EnvType.CLIENT)
 public class RocketCrateEntityRenderer extends EntityRenderer<RocketCrateEntity> {
-    public static final Identifier TEXTURE = StellarContracts.id("textures/entity/rocket_crate.png");
+    private static final Identifier TEXTURE = StellarContracts.id("textures/entity/rocket_crate.png");
     private final RocketCrateEntityRenderer.Model model;
 
     public RocketCrateEntityRenderer(EntityRenderDispatcher dispatcher) {
@@ -26,7 +26,7 @@ public class RocketCrateEntityRenderer extends EntityRenderer<RocketCrateEntity>
 
     @Override
     public Identifier getTexture(RocketCrateEntity entity) {
-        return TEXTURE;
+        return RocketCrateEntityRenderer.TEXTURE;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class RocketCrateEntityRenderer extends EntityRenderer<RocketCrateEntity>
         matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(entity.pitch));
         matrices.translate(0.5, -1.5, -0.5);
 
-        final VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(TEXTURE));
+        final VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(RocketCrateEntityRenderer.TEXTURE));
         this.model.render(matrices, buffer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
 
         matrices.pop();

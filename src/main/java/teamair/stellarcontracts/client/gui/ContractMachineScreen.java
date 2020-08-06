@@ -12,13 +12,13 @@ import spinnery.widget.api.Size;
 import teamair.stellarcontracts.StellarContracts;
 import teamair.stellarcontracts.client.widget.WNetwork;
 import teamair.stellarcontracts.client.widget.WTexturedPanel;
-import teamair.stellarcontracts.screenhandler.ContractMachineContainer;
+import teamair.stellarcontracts.screenhandler.ContractMachineScreenHandler;
 
-public class ContractMachineScreen extends BaseHandledScreen<ContractMachineContainer> {
+public class ContractMachineScreen extends BaseHandledScreen<ContractMachineScreenHandler> {
     private static final Text TOP = new TranslatableText("texts.stellar_contracts.contract_machine_gui_name");
     private static final Identifier TEXTURE = StellarContracts.id("textures/gui/contract_machine_background.png");
 
-    public ContractMachineScreen(ContractMachineContainer linkedContainer) {
+    public ContractMachineScreen(ContractMachineScreenHandler linkedContainer) {
         super(TOP, linkedContainer, linkedContainer.player);
 
         WInterface mainInterface = this.getInterface();

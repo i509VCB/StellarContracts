@@ -24,29 +24,30 @@ import teamair.stellarcontracts.registry.StellarItems;
 import teamair.stellarcontracts.registry.StellarSounds;
 import teamair.stellarcontracts.util.StellarUtilities;
 
-public class AbstractRocketEntity extends Entity {
+public abstract class AbstractRocketEntity extends Entity {
     private static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(AbstractRocketEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(AbstractRocketEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(AbstractRocketEntity.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Boolean> LAUNCHED = DataTracker.registerData(AbstractRocketEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Integer> FUEL = DataTracker.registerData(AbstractRocketEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    // FIXME: Move constant out of this class
     public static final int MAX_FUEL = 1000;
 
     private final SimpleInventory inventory = new SimpleInventory(27);
     private float soundLastTime = System.nanoTime() / 1_000_000_000F;
     private float soundTimer = 0;
 
-    public AbstractRocketEntity(EntityType<? extends AbstractRocketEntity> type, World world) {
+    protected AbstractRocketEntity(EntityType<? extends AbstractRocketEntity> type, World world) {
         super(type, world);
     }
 
     @Override
     protected void initDataTracker() {
-        this.dataTracker.startTracking(DAMAGE_WOBBLE_TICKS, 0);
-        this.dataTracker.startTracking(DAMAGE_WOBBLE_SIDE, 1);
-        this.dataTracker.startTracking(DAMAGE_WOBBLE_STRENGTH, 0.0F);
-        this.dataTracker.startTracking(LAUNCHED, false);
-        this.dataTracker.startTracking(FUEL, 0);
+        this.dataTracker.startTracking(AbstractRocketEntity.DAMAGE_WOBBLE_TICKS, 0);
+        this.dataTracker.startTracking(AbstractRocketEntity.DAMAGE_WOBBLE_SIDE, 1);
+        this.dataTracker.startTracking(AbstractRocketEntity.DAMAGE_WOBBLE_STRENGTH, 0.0F);
+        this.dataTracker.startTracking(AbstractRocketEntity.LAUNCHED, false);
+        this.dataTracker.startTracking(AbstractRocketEntity.FUEL, 0);
     }
 
     @Override
@@ -125,10 +126,7 @@ public class AbstractRocketEntity extends Entity {
         return ActionResult.FAIL;
     }
 
-    // TODO: Make abstract
-    protected boolean isSuitableFuelItem(ItemStack stack) {
-        return stack.isEmpty() && (stack.getItem() == StellarItems.ROCKET_FUEL_CANISTER || stack.getItem() == StellarItems.ACTIVATED_IODZIUM_CANISTER);
-    }
+    protected abstract boolean isSuitableFuelItem(ItemStack stack);
 
     @Override
     public Packet<?> createSpawnPacket() {
@@ -136,43 +134,43 @@ public class AbstractRocketEntity extends Entity {
     }
 
     public void setDamageWobbleStrength(float strength) {
-        this.dataTracker.set(DAMAGE_WOBBLE_STRENGTH, strength);
+        this.dataTracker.set(AbstractRocketEntity.DAMAGE_WOBBLE_STRENGTH, strength);
     }
 
     public float getDamageWobbleStrength() {
-        return this.dataTracker.get(DAMAGE_WOBBLE_STRENGTH);
+        return this.dataTracker.get(AbstractRocketEntity.DAMAGE_WOBBLE_STRENGTH);
     }
 
     public void setDamageWobbleTicks(int wobbleTicks) {
-        this.dataTracker.set(DAMAGE_WOBBLE_TICKS, wobbleTicks);
+        this.dataTracker.set(AbstractRocketEntity.DAMAGE_WOBBLE_TICKS, wobbleTicks);
     }
 
     public int getDamageWobbleTicks() {
-        return this.dataTracker.get(DAMAGE_WOBBLE_TICKS);
+        return this.dataTracker.get(AbstractRocketEntity.DAMAGE_WOBBLE_TICKS);
     }
 
     public void setDamageWobbleSide(int wobbleSide) {
-        this.dataTracker.set(DAMAGE_WOBBLE_SIDE, wobbleSide);
+        this.dataTracker.set(AbstractRocketEntity.DAMAGE_WOBBLE_SIDE, wobbleSide);
     }
 
     public int getDamageWobbleSide() {
-        return this.dataTracker.get(DAMAGE_WOBBLE_SIDE);
+        return this.dataTracker.get(AbstractRocketEntity.DAMAGE_WOBBLE_SIDE);
     }
 
     public void setLaunched(boolean launched) {
-        this.dataTracker.set(LAUNCHED, launched);
+        this.dataTracker.set(AbstractRocketEntity.LAUNCHED, launched);
     }
 
     public boolean isLaunched() {
-        return this.dataTracker.get(LAUNCHED);
+        return this.dataTracker.get(AbstractRocketEntity.LAUNCHED);
     }
 
     public void setFuel(int fuel) {
-        this.dataTracker.set(FUEL, fuel);
+        this.dataTracker.set(AbstractRocketEntity.FUEL, fuel);
     }
 
     public int getFuel() {
-        return this.dataTracker.get(FUEL);
+        return this.dataTracker.get(AbstractRocketEntity.FUEL);
     }
 
     // TODO: Non-int destination?
