@@ -4,21 +4,17 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import spinnery.widget.WPanel;
-import spinnery.widget.api.WLayoutElement;
 import teamair.stellarcontracts.StellarContracts;
 import teamair.stellarcontracts.screenhandler.CommunicatorScreenHandler;
 
 @Environment(EnvType.CLIENT)
 public class CommunicatorScreen extends HandledScreen<CommunicatorScreenHandler> {
-    private static final Identifier COMMS_PANEL = StellarContracts.id("textures/gui/communicator.png");
+    private static final Identifier COMMUNICATOR_TEXTURE = StellarContracts.id("textures/gui/communicator.png");
 
     public CommunicatorScreen(CommunicatorScreenHandler handler, PlayerInventory playerInventory, Text title) {
         super(handler, playerInventory, title);
@@ -32,7 +28,7 @@ public class CommunicatorScreen extends HandledScreen<CommunicatorScreenHandler>
 
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        this.client.getTextureManager().bindTexture(CommunicatorScreen.COMMS_PANEL);
+        this.client.getTextureManager().bindTexture(CommunicatorScreen.COMMUNICATOR_TEXTURE);
         DrawableHelper.drawTexture(matrices, this.x, this.y, 0, 0, 180, 180, 180, 180);
     }
 

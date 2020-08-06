@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,8 +26,14 @@ import teamair.stellarcontracts.registry.StellarBlockEntities;
 import teamair.stellarcontracts.registry.StellarScreenHandlers;
 
 public class ContractMachineBlock extends Block implements BlockEntityProvider {
-    public ContractMachineBlock(Settings settings) {
-        super(settings);
+    public ContractMachineBlock() {
+        super(Block.Settings.copy(Blocks.IRON_BLOCK)
+                .nonOpaque()
+                .allowsSpawning(StellarContextPredicates::falseTypedContext)
+                .solidBlock(StellarContextPredicates::falseContext)
+                .suffocates(StellarContextPredicates::falseContext)
+                .blockVision(StellarContextPredicates::falseContext)
+        );
     }
 
     @Override

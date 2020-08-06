@@ -15,16 +15,12 @@ import teamair.stellarcontracts.screenhandler.RocketCrateContainer;
 
 import static teamair.stellarcontracts.StellarContracts.id;
 
-public class StellarScreenHandlers {
+public final class StellarScreenHandlers {
     public static final ScreenHandlerType<CommunicatorScreenHandler> COMMUNICATOR = ScreenHandlerRegistry.registerExtended(StellarContracts.id("communicator"), CommunicatorScreenHandler::fromPacket);
-    public static final Identifier COMMUNICATOR_CONTAINER = id("communicator");
     public static final Identifier ROCKET_CRATE_CONTAINER = id("rocket_crate");
     public static final Identifier LAUNCH_PAD_CONTAINER = id("launch_pad");
     public static final Identifier ROCKET_CONTAINER = id("rocket_mk1");
     public static final Identifier CONTRACT_MACHINE = id("contract_machine");
-
-    private StellarScreenHandlers() {
-    }
 
     static void init() {
         // TODO: To be ported
@@ -36,5 +32,8 @@ public class StellarScreenHandlers {
                 (syncId, id, player, buf) -> new RocketContainer(syncId, buf.readInt(), player.inventory));
         ContainerProviderRegistry.INSTANCE.registerFactory(CONTRACT_MACHINE,
                 (syncId, id, player, buf) -> new ContractMachineContainer(syncId, buf.readBlockPos(), player.inventory));
+    }
+
+    private StellarScreenHandlers() {
     }
 }

@@ -1,6 +1,9 @@
 package teamair.stellarcontracts.item;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.loader.api.FabricLoader;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -36,7 +39,6 @@ public class CommunicatorItem extends Item implements ExtendedScreenHandlerFacto
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (!world.isClient()) {
             user.openHandledScreen(this);
-
             return TypedActionResult.success(user.getMainHandStack());
         }
 
@@ -45,7 +47,17 @@ public class CommunicatorItem extends Item implements ExtendedScreenHandlerFacto
 
     @Override
     public boolean hasGlint(ItemStack stack) {
-        return this.isContractActive;
+        // Wrap it in a logical client call
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+            return this.isContractActive();
+        }
+
+        return false;
+    }
+
+    @Environment(EnvType.CLIENT)
+    private boolean isContractActive() {
+        return this.isContractActive; // TODO: Check contract activity status client has recieved
     }
 
     @Override
@@ -55,7 +67,7 @@ public class CommunicatorItem extends Item implements ExtendedScreenHandlerFacto
 
     @Override
     public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
-        // TODO: Write contract data
+        // TODO: Write contract info
     }
 
     @Override
