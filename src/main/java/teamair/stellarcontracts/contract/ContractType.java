@@ -1,26 +1,26 @@
 package teamair.stellarcontracts.contract;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.Identifier;
-import teamair.stellarcontracts.registry.StellarContractTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
 
-import java.util.UUID;
-import java.util.function.BiFunction;
+public interface ContractType<V> {
+    @ApiStatus.OverrideOnly
+    void tick(V data, ServerPlayerEntity player);
 
-public final class ContractType<C extends Contract> {
-    private final BiFunction<UUID, CompoundTag, C> deserializer;
+    @ApiStatus.OverrideOnly
+    void reward(V data, ServerPlayerEntity player);
 
-    public ContractType(BiFunction<UUID, CompoundTag, C> deserializer) {
-        this.deserializer = deserializer;
-    }
+    @ApiStatus.OverrideOnly
+    void onCompletion(V data, ServerPlayerEntity player);
 
-    public C deserialize(UUID uuid, CompoundTag tag) {
-        return this.deserializer.apply(uuid, tag);
-    }
+    @ApiStatus.OverrideOnly
+    void onCancel(V data, Contract.CancelReason reason);
 
-    @Override
-    public String toString() {
-        final Identifier id = StellarContractTypes.REGISTRY.getId(this);
-        return id.toString();
-    }
+    @ApiStatus.OverrideOnly
+    V readContractData(CompoundTag tag);
+
+    @ApiStatus.OverrideOnly
+    void writeContractData(V data, CompoundTag tag);
 }

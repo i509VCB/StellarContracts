@@ -6,7 +6,7 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.Box;
-import teamair.stellarcontracts.entity.RocketEntityMk1;
+import teamair.stellarcontracts.entity.AbstractRocketEntity;
 import teamair.stellarcontracts.registry.StellarBlockEntities;
 import teamair.stellarcontracts.registry.StellarEntities;
 import teamair.stellarcontracts.registry.StellarItems;
@@ -46,7 +46,7 @@ public class LaunchPadBlockEntity extends BlockEntity implements Tickable {
     }
 
     private void spawnRocket() {
-        RocketEntityMk1 rocket = StellarEntities.ROCKET_MK1.create(this.world);
+        AbstractRocketEntity rocket = StellarEntities.ROCKET_MK1.create(this.world);
         //noinspection ConstantConditions
         rocket.refreshPositionAndAngles(getPos().up(), 0, 0);
         this.world.spawnEntity(rocket);
@@ -74,7 +74,7 @@ public class LaunchPadBlockEntity extends BlockEntity implements Tickable {
     }
 
     private boolean hasRocketOnTop() {
-        List<RocketEntityMk1> rockets = this.world.getEntities(StellarEntities.ROCKET_MK1,
+        List<AbstractRocketEntity> rockets = this.world.getEntities(StellarEntities.ROCKET_MK1,
             new Box(getPos().add(0, 1, 0), getPos().add(1, 4, 1)),
             it -> true);
 

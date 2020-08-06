@@ -24,21 +24,21 @@ public class WBuildBar extends WHorizontalBar {
 
     @Override
     public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
-        if (isHidden()) {
+        if (this.isHidden()) {
             return;
         }
 
-        float x = getX();
-        float y = getY();
-        float z = getZ();
+        float x = this.getX();
+        float y = this.getY();
+        float z = this.getZ();
 
-        float sX = getWidth();
-        float sY = getHeight();
+        float sX = this.getWidth();
+        float sY = this.getHeight();
 
         float rawHeight = MinecraftClient.getInstance().getWindow().getHeight();
         float scale = (float) MinecraftClient.getInstance().getWindow().getScaleFactor();
 
-        float sBGX = (int) (((sX / limit.getValue().intValue()) * progress.getValue().intValue()));
+        float sBGX = (int) (((sX / this.limit.getValue().intValue()) * this.progress.getValue().intValue()));
 
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
 

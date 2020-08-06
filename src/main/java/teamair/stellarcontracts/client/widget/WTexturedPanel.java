@@ -23,19 +23,21 @@ public class WTexturedPanel extends WPanel {
 
     @Override
     public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
-        if(isHidden()) { return; }
+        if(this.isHidden()) {
+            return;
+        }
 
-        int x = (int) getX();
-        int y = (int) getY();
-        int z = (int) getZ();
+        int x = (int) this.getX();
+        int y = (int) this.getY();
+        int z = (int) this.getZ();
 
-        int sX = (int) getWidth();
-        int sY = (int) getHeight();
+        int sX = (int) this.getWidth();
+        int sY = (int) this.getHeight();
 
         BaseRenderer.getTextureManager().bindTexture(getTexture());
         DrawableHelper.drawTexture(matrices, x, y, sX, sY, 0, 0, sX, sY, sX, sY);
 
-        if (hasLabel()) {
+        if (this.hasLabel()) {
             TextRenderer.pass().shadow(isLabelShadowed())
                 .text(getLabel()).at(x + 8, y + 6, z)
                 .color(getStyle().asColor("label.color")).shadowColor(getStyle().asColor("label.shadow_color")).render(matrices, provider);

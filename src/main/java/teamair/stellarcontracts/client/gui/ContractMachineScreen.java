@@ -20,7 +20,7 @@ public class ContractMachineScreen extends BaseContainerScreen<ContractMachineCo
     public ContractMachineScreen(ContractMachineContainer linkedContainer) {
         super(TOP, linkedContainer, linkedContainer.player);
 
-        WInterface mainInterface = getInterface();
+        WInterface mainInterface = this.getInterface();
         WTexturedPanel mainPanel = mainInterface.createChild(WTexturedPanel::new,
             Position.of(0, 0, 0),
             Size.of(176, 144)

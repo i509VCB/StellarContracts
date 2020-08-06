@@ -13,10 +13,10 @@ import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import teamair.stellarcontracts.StellarContracts;
-import teamair.stellarcontracts.entity.RocketEntityMk1;
+import teamair.stellarcontracts.entity.AbstractRocketEntity;
 
 @Environment(EnvType.CLIENT)
-public class RocketMk1EntityRenderer extends EntityRenderer<RocketEntityMk1> {
+public class RocketMk1EntityRenderer extends EntityRenderer<AbstractRocketEntity> {
     public static final Identifier TEXTURE = StellarContracts.id("textures/entity/rocket/mk1.png");
     private final RocketMk1EntityRenderer.Model model;
 
@@ -26,12 +26,12 @@ public class RocketMk1EntityRenderer extends EntityRenderer<RocketEntityMk1> {
     }
 
     @Override
-    public Identifier getTexture(RocketEntityMk1 entity) {
+    public Identifier getTexture(AbstractRocketEntity entity) {
         return TEXTURE;
     }
 
     @Override
-    public void render(RocketEntityMk1 entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+    public void render(AbstractRocketEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         matrices.push();
 
         matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(180.0F));
@@ -55,7 +55,7 @@ public class RocketMk1EntityRenderer extends EntityRenderer<RocketEntityMk1> {
         super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
     }
 
-    static class Model extends BaseModel<RocketEntityMk1> {
+    static class Model extends BaseModel<AbstractRocketEntity> {
         Model() {
             this.textureWidth = 64;
             this.textureHeight = 64;

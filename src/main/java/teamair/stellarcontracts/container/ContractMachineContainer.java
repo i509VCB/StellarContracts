@@ -18,7 +18,7 @@ public class ContractMachineContainer extends BaseContainer {
         this.player = playerInventory.player;
         this.pos = pos;
 
-        WInterface mainInterface = getInterface();
+        WInterface mainInterface = this.getInterface();
         WSlot.addHeadlessPlayerInventory(mainInterface);
 
         WNetwork net = new WNetwork();

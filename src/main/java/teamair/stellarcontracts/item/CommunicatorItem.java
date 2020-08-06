@@ -13,6 +13,7 @@ import teamair.stellarcontracts.registry.StellarGUIs;
 import teamair.stellarcontracts.registry.StellarItems;
 
 public class CommunicatorItem extends Item {
+    // FIXME: Check using packet sent to client, not this lol
     private boolean isContractActive;
 
     public CommunicatorItem(Settings settings) {
@@ -21,11 +22,13 @@ public class CommunicatorItem extends Item {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (!world.isClient) {
+        // TODO: ScreenHandler
+        if (!world.isClient()) {
             ContainerProviderRegistry.INSTANCE.openContainer(StellarGUIs.COMMUNICATOR_CONTAINER, user, (buffer) -> {
                 buffer.writeText(new TranslatableText(this.getTranslationKey()));
             });
         }
+
         return TypedActionResult.success(user.getMainHandStack());
     }
 

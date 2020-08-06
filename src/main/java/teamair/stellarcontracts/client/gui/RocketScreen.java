@@ -13,7 +13,7 @@ import spinnery.widget.api.Size;
 import teamair.stellarcontracts.StellarContracts;
 import teamair.stellarcontracts.client.widget.*;
 import teamair.stellarcontracts.container.RocketContainer;
-import teamair.stellarcontracts.entity.RocketEntityMk1;
+import teamair.stellarcontracts.entity.AbstractRocketEntity;
 
 import java.util.Arrays;
 
@@ -88,7 +88,7 @@ public class RocketScreen extends BaseContainerScreen<RocketContainer> {
         );
 
         fuelBar = new WFuelBar()
-            .setLimit(new MutableInt(RocketEntityMk1.MAX_FUEL))
+            .setLimit(new MutableInt(AbstractRocketEntity.MAX_FUEL))
             .setProgress(new MutableInt(0))
             .setPosition(Position.of(mainPanel, 11, 11))
             .setSize(Size.of(5, 102));

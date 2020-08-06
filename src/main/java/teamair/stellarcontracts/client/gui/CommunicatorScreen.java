@@ -23,7 +23,7 @@ public class CommunicatorScreen extends BaseContainerScreen<CommunicatorContaine
     public CommunicatorScreen(CommunicatorContainer linkedContainer) {
         super(linkedContainer.text, linkedContainer, linkedContainer.player);
 
-        WInterface mainInterface = getInterface();
+        WInterface mainInterface = this.getInterface();
         WCommunicatorPanel mainPanel = mainInterface.createChild(WCommunicatorPanel::new, Position.of(0, 0, 0), Size.of(9 * 18 + 8, 3 * 18 + 108)).setParent(mainInterface);
 
         mainPanel.setOnAlign(WAbstractWidget::center);

@@ -16,10 +16,10 @@ public class RocketCrateContainer extends BaseContainer {
         this.player = playerInventory.player;
         this.id = id;
 
-        WInterface mainInterface = getInterface();
-        RocketCrateEntity e = (RocketCrateEntity) player.world.getEntityById(id);
+        WInterface mainInterface = this.getInterface();
+        RocketCrateEntity e = (RocketCrateEntity) this.player.world.getEntityById(id);
 
-        addInventory(1, e.getInventory());
+        this.addInventory(1, e.getInventory());
         WSlot.addHeadlessArray(mainInterface, 0, 1, 9, 3);
         WSlot.addHeadlessPlayerInventory(mainInterface);
     }

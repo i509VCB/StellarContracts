@@ -79,18 +79,18 @@ public class WTexturedSlot extends WSlot {
 
     @Override
     public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
-        if (isHidden()) {
+        if (this.isHidden()) {
             return;
         }
 
-        int x = (int) getX();
-        int y = (int) getY();
-        int z = (int) getZ();
+        int x = (int) this.getX();
+        int y = (int) this.getY();
+        int z = (int) this.getZ();
 
-        int sX = (int) getWidth();
-        int sY = (int) getHeight();
+        int sX = (int) this.getWidth();
+        int sY = (int) this.getHeight();
 
-        if (showBackground) {
+        if (this.showBackground) {
             BaseRenderer.getTextureManager().bindTexture(getTexture());
             DrawableHelper.drawTexture(matrices, x, y, sX, sY, 0, 0, sX, sY, sX, sY);
         }

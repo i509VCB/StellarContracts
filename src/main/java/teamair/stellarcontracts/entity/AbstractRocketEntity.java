@@ -9,6 +9,7 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -24,19 +25,19 @@ import teamair.stellarcontracts.registry.StellarItems;
 import teamair.stellarcontracts.registry.StellarSounds;
 import teamair.stellarcontracts.util.StellarUtilities;
 
-public class RocketEntityMk1 extends Entity {
-    private static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.INTEGER);
-    private static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.INTEGER);
-    private static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.FLOAT);
-    private static final TrackedData<Boolean> LAUNCHED = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.BOOLEAN);
-    private static final TrackedData<Integer> FUEL = DataTracker.registerData(RocketEntityMk1.class, TrackedDataHandlerRegistry.INTEGER);
+public class AbstractRocketEntity extends Entity {
+    private static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(AbstractRocketEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(AbstractRocketEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(AbstractRocketEntity.class, TrackedDataHandlerRegistry.FLOAT);
+    private static final TrackedData<Boolean> LAUNCHED = DataTracker.registerData(AbstractRocketEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Integer> FUEL = DataTracker.registerData(AbstractRocketEntity.class, TrackedDataHandlerRegistry.INTEGER);
     public static final int MAX_FUEL = 1000;
 
     private final SimpleInventory inventory = new SimpleInventory(27);
-    private float soundLastTime = System.nanoTime() / 1_000_000_000f;
+    private float soundLastTime = System.nanoTime() / 1_000_000_000F;
     private float soundTimer = 0;
 
-    public RocketEntityMk1(EntityType<? extends RocketEntityMk1> type, World world) {
+    public AbstractRocketEntity(EntityType<? extends AbstractRocketEntity> type, World world) {
         super(type, world);
     }
 
@@ -51,14 +52,14 @@ public class RocketEntityMk1 extends Entity {
 
     @Override
     protected void readCustomDataFromTag(CompoundTag tag) {
-        StellarUtilities.readInventory(tag, "inventory", inventory);
-        setLaunched(tag.getBoolean("launched"));
-        setFuel(tag.getInt("fuel"));
+        StellarUtilities.readInventory(tag, "inventory", this.inventory);
+        this.setLaunched(tag.getBoolean("launched"));
+        this.setFuel(tag.getInt("fuel"));
     }
 
     @Override
     protected void writeCustomDataToTag(CompoundTag tag) {
-        StellarUtilities.writeInventory(tag, "inventory", inventory);
+        StellarUtilities.writeInventory(tag, "inventory", this.inventory);
         tag.putBoolean("launched", isLaunched());
         tag.putInt("fuel", getFuel());
     }
@@ -75,27 +76,23 @@ public class RocketEntityMk1 extends Entity {
 
     @Override
     public boolean damage(DamageSource source, float amount) {
-        if (!this.world.isClient() && !this.removed) {
-            if (this.isInvulnerableTo(source)) {
-                return false;
-            }
-
-            this.setDamageWobbleSide(-this.getDamageWobbleSide());
-            this.setDamageWobbleTicks(10);
-            this.scheduleVelocityUpdate();
-            this.setDamageWobbleStrength(this.getDamageWobbleStrength() + amount * 10.0F);
-
-            boolean isCreative = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity) source.getAttacker()).abilities.creativeMode;
-
-            if (isCreative || this.getDamageWobbleStrength() > 40.0F) {
-                this.remove();
-                StellarUtilities.dropInventory(inventory, getEntityWorld(), getPos());
-            }
-
-            return true;
-        } else {
+        if (this.isInvulnerableTo(source) || this.world.isClient() && !this.removed) {
             return false;
         }
+
+        this.setDamageWobbleSide(-this.getDamageWobbleSide());
+        this.setDamageWobbleTicks(10);
+        this.scheduleVelocityUpdate();
+        this.setDamageWobbleStrength(this.getDamageWobbleStrength() + amount * 10.0F);
+
+        final boolean isCreativeModeAttacker = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity) source.getAttacker()).abilities.creativeMode;
+
+        if (isCreativeModeAttacker || this.getDamageWobbleStrength() > 40.0F) {
+            this.remove();
+            StellarUtilities.dropInventory(this.inventory, getEntityWorld(), getPos());
+        }
+
+        return true;
     }
 
     @Override
@@ -111,9 +108,7 @@ public class RocketEntityMk1 extends Entity {
 
         if (!this.isLaunched()) {
             ItemStack handItem = player.getStackInHand(hand);
-            if (!handItem.isEmpty() && (
-                handItem.getItem() == StellarItems.ROCKET_FUEL_CANISTER
-                    || handItem.getItem() == StellarItems.ACTIVATED_IODZIUM_CANISTER)) {
+            if (!this.isSuitableFuelItem(handItem)) {
 
                 if (this.getFuel() < MAX_FUEL) {
                     handItem.decrement(1);
@@ -121,15 +116,24 @@ public class RocketEntityMk1 extends Entity {
                     this.setFuel(MAX_FUEL);
                     return ActionResult.SUCCESS;
                 }
+
                 return ActionResult.FAIL;
             }
 
-            ContainerProviderRegistry.INSTANCE.openContainer(StellarGUIs.ROCKER_CONTAINER, player, (buffer) -> {
+            // FIXME: ScreenHandler time
+            ContainerProviderRegistry.INSTANCE.openContainer(StellarGUIs.ROCKET_CONTAINER, player, (buffer) -> {
                 buffer.writeInt(this.getEntityId());
             });
+
             return ActionResult.SUCCESS;
         }
+
         return ActionResult.FAIL;
+    }
+
+    // TODO: Make abstract
+    protected boolean isSuitableFuelItem(ItemStack stack) {
+        return stack.isEmpty() && (stack.getItem() == StellarItems.ROCKET_FUEL_CANISTER || stack.getItem() == StellarItems.ACTIVATED_IODZIUM_CANISTER);
     }
 
     @Override
@@ -169,7 +173,6 @@ public class RocketEntityMk1 extends Entity {
         return this.dataTracker.get(LAUNCHED);
     }
 
-
     public void setFuel(int fuel) {
         this.dataTracker.set(FUEL, fuel);
     }
@@ -178,20 +181,22 @@ public class RocketEntityMk1 extends Entity {
         return this.dataTracker.get(FUEL);
     }
 
+    // TODO: Non-int destination?
     public boolean tryLaunch(int destination) {
         if (this.getFuel() >= MAX_FUEL) {
             this.setLaunched(true);
             return true;
         }
+
         return false;
     }
 
     public void cycleDestination() {
-
+        // TODO: Impl
     }
 
-    public SimpleInventory getInventory() {
-        return inventory;
+    public Inventory getInventory() {
+        return this.inventory;
     }
 
     @Override
@@ -215,7 +220,7 @@ public class RocketEntityMk1 extends Entity {
             this.destroy();
         }
 
-        if (isLaunched()) {
+        if (this.isLaunched()) {
             // Move the rocket to space
             this.addVelocity(0, 0.01, 0.0);
             // Add an angle at the end of the launch
@@ -231,42 +236,28 @@ public class RocketEntityMk1 extends Entity {
 
             // We don't need the particles to be sync with the server
             if (this.world.isClient()) {
-
-                playSoundEffects();
-
-                // TODO move this to a config file
-                float deviation = 0.10f;
-                float speed = 0.2f;
-                int particlesPerTick = 5;
-
-                for (int i = 0; i < particlesPerTick; i++) {
-
-                    this.world.addParticle(
-                        ParticleTypes.FLAME,
-                        getPos().x,
-                        getPos().y,
-                        getPos().z,
-                        StellarUtilities.centeredRandom() * deviation,
-                        -speed,
-                        StellarUtilities.centeredRandom() * deviation
-                    );
-
-                    // Smoke particles live for less time that flame particles
-                    this.world.addParticle(
-                        ParticleTypes.SMOKE,
-                        getPos().x,
-                        getPos().y,
-                        getPos().z,
-                        StellarUtilities.centeredRandom() * deviation,
-                        -speed * 2,
-                        StellarUtilities.centeredRandom() * deviation
-                    );
-                }
+                this.clientTick();
             }
         } else {
             // Move the rocket to space
             this.addVelocity(0, -0.1, 0);
-            this.move(MovementType.SELF, getVelocity());
+            this.move(MovementType.SELF, this.getVelocity());
+        }
+    }
+
+    protected void clientTick() {
+        this.playSoundEffects();
+
+        // TODO move this to a config file
+        float deviation = 0.10f;
+        float speed = 0.2f;
+        int particlesPerTick = 5;
+
+        for (int i = 0; i < particlesPerTick; i++) {
+            this.world.addParticle(ParticleTypes.FLAME, getPos().getX(), getPos().getY(), getPos().getZ(), StellarUtilities.centeredRandom() * deviation, -speed, StellarUtilities.centeredRandom() * deviation);
+
+            // Smoke particles live for less time that flame particles
+            this.world.addParticle(ParticleTypes.SMOKE, getPos().getX(), getPos().getY(), getPos().getZ(), StellarUtilities.centeredRandom() * deviation, -speed * 2, StellarUtilities.centeredRandom() * deviation);
         }
     }
 

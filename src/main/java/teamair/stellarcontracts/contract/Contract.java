@@ -1,54 +1,58 @@
 package teamair.stellarcontracts.contract;
 
+import java.util.Objects;
+
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 
-import java.time.Instant;
-import java.util.Optional;
-import java.util.UUID;
+public final class Contract<V> {
+    private final ContractType<V> type;
+    private V contractData;
 
-public interface Contract {
-    ContractType<?> getType();
+    public Contract(ContractType<V> type) {
+        this.type = type;
+    }
 
-    /**
-     * Gets the UUID of the player this contract was assigned to.
-     */
-    UUID getAssignee();
+    public ContractType<V> getType() {
+        return this.type;
+    }
 
-    /**
-     * The amount of ticks this contract has been active while the assignee is online.
-     */
-    long getTicks();
+    public void tick(ServerPlayerEntity player) {
+        this.getType().tick(this.contractData, player);
+    }
 
-    void tick(ServerWorld world);
+    public void reward(ServerPlayerEntity player) {
+        this.getType().reward(this.contractData, player);
+    }
 
-    /**
-     * Cancels the contract.
-     */
-    void cancel();
+    public void complete(ServerPlayerEntity player) {
+        this.getType().onCompletion(this.contractData, player);
+    }
 
-    void onCancel();
+    public void cancel(CancelReason reason) {
+        this.getType().onCancel(this.contractData, reason);
+    }
 
-    /**
-     * Ends the contract and rewards the player.
-     */
-    void reward(ServerPlayerEntity player);
+    public void fromTag(CompoundTag tag) {
+        // TODO: read main data
+        if (!(this.getType() instanceof SimpleContractType)) {
+            this.contractData = Objects.requireNonNull(this.getType().readContractData(tag), "Contract data being read cannot be null");
+        }
+    }
 
-    /**
-     * Checks whether this contract is still valid.
-     */
-    boolean isValid();
+    public CompoundTag toTag(CompoundTag tag) {
+        // TODO: write main data
+        if (!(this.getType() instanceof SimpleContractType)) {
+            this.getType().writeContractData(this.contractData, tag);
+        }
 
-    /**
-     * Gets the assignee's player.
-     *
-     * @param playerManager the server's player manager.
-     */
-    Optional<ServerPlayerEntity> getAssignee(PlayerManager playerManager);
+        return tag;
+    }
 
-    void fromTag(CompoundTag tag);
-
-    CompoundTag toTag(CompoundTag tag);
+    public enum CancelReason {
+        COMMAND,
+        DIFFICULTY_CHANGE,
+        UNFULFILLED,
+        UNKNOWN
+    }
 }

@@ -16,7 +16,7 @@ public class CommunicatorContainer extends BaseContainer {
         this.player = playerInventory.player;
         this.text = text;
 
-        WInterface mainInterface = getInterface();
+        WInterface mainInterface = this.getInterface();
 
         WSlot.addHeadlessPlayerInventory(mainInterface);
     }

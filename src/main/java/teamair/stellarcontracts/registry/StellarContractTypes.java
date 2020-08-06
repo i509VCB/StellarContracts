@@ -7,7 +7,6 @@ import net.minecraft.util.registry.SimpleRegistry;
 import teamair.stellarcontracts.StellarContracts;
 import teamair.stellarcontracts.contract.Contract;
 import teamair.stellarcontracts.contract.ContractType;
-import teamair.stellarcontracts.contract.ResourceContract;
 
 public final class StellarContractTypes {
     public static final RegistryKey<Registry<ContractType<?>>> CONTRACT_TYPE_KEY = RegistryKey.ofRegistry(StellarContracts.id("contract_types"));

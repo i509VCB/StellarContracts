@@ -126,6 +126,7 @@ public class RocketCrateEntity extends Entity {
         // Check distance to ground
         for (int i = 0; i < maxHeight; i++) {
             BlockState s = this.world.getBlockState(getBlockPos().down(i));
+
             if (!s.isAir()) {
                 height = i;
                 break;
@@ -135,78 +136,54 @@ public class RocketCrateEntity extends Entity {
         double fallSpeed = (height == maxHeight) ? -0.05 : -0.01;
         double drag = (height == maxHeight) ? 0.98 : 0.75;
 
-        this.setVelocity(getVelocity().add(0, fallSpeed, 0).multiply(drag));
+        this.setVelocity(this.getVelocity().add(0, fallSpeed, 0).multiply(drag));
         this.velocityDirty = true;
 
         this.noClip = false;
         this.checkBlockCollision();
-        this.move(MovementType.SELF, getVelocity());
+        this.move(MovementType.SELF, this.getVelocity());
         this.updatePosition(this.getPos().x, this.getPos().y, this.getPos().z);
 
         if (this.world.isClient()) {
-
-            playSoundEffects();
-
-            // TODO move this to a config file
-            float deviation = 0.02f;
-            float speed = (float) (0.1f - this.getVelocity().y * 1.25);
-            int particlesPerTick = 1;
-
-            for (int i = 0; i < particlesPerTick; i++) {
-
-                this.world.addParticle(
-                    ParticleTypes.FLAME,
-                    getPos().x + 5 / 16f,
-                    getPos().y,
-                    getPos().z + 5 / 16f,
-                    StellarUtilities.centeredRandom() * deviation,
-                    -speed,
-                    StellarUtilities.centeredRandom() * deviation
-                );
-
-                this.world.addParticle(
-                    ParticleTypes.FLAME,
-                    getPos().x - 5 / 16f,
-                    getPos().y,
-                    getPos().z + 5 / 16f,
-                    StellarUtilities.centeredRandom() * deviation,
-                    -speed,
-                    StellarUtilities.centeredRandom() * deviation
-                );
-
-                this.world.addParticle(
-                    ParticleTypes.FLAME,
-                    getPos().x - 5 / 16f,
-                    getPos().y,
-                    getPos().z - 5 / 16f,
-                    StellarUtilities.centeredRandom() * deviation,
-                    -speed,
-                    StellarUtilities.centeredRandom() * deviation
-                );
-
-                this.world.addParticle(
-                    ParticleTypes.FLAME,
-                    getPos().x + 5 / 16f,
-                    getPos().y,
-                    getPos().z - 5 / 16f,
-                    StellarUtilities.centeredRandom() * deviation,
-                    -speed,
-                    StellarUtilities.centeredRandom() * deviation
-                );
-            }
+            this.clientTick();
         }
     }
 
+    private void clientTick() {
+        this.playSoundEffects();
+
+        // TODO move this to a config file
+        float deviation = 0.02f;
+        float speed = (float) (0.1f - this.getVelocity().y * 1.25);
+        int particlesPerTick = 1;
+
+        for (int i = 0; i < particlesPerTick; i++) {
+            this.spawnEngineParticle(speed, deviation, 5, 5);
+            this.spawnEngineParticle(speed, deviation, -5, 5);
+            this.spawnEngineParticle(speed, deviation, -5, -5);
+            this.spawnEngineParticle(speed, deviation, 5, -5);
+        }
+    }
+
+    private void spawnEngineParticle(float speed, float deviation, int xOffset, int zOffset) {
+        final double x = this.getPos().getX() + xOffset / 16F;
+        final double z = this.getPos().getZ() + zOffset / 16F;
+        final double xVelocity = StellarUtilities.centeredRandom() * deviation;
+        final double zVelocity = StellarUtilities.centeredRandom() * deviation;
+
+        this.world.addParticle(ParticleTypes.FLAME, x, this.getPos().getY(), z, xVelocity, -speed, zVelocity);
+    }
+
     private void playSoundEffects() {
-        if (soundTimer <= 0) {
+        if (this.soundTimer <= 0) {
             this.world.playSound(this.getPos().x, this.getPos().y, this.getPos().z, StellarSounds.ROCKET_THRUST, SoundCategory.NEUTRAL, 1.0F, 1.0F, false);
-            soundTimer = 0.6f;
+            this.soundTimer = 0.6f;
         }
 
         float now = System.nanoTime() / 1_000_000_000f;
-        float delta = now - soundLastTime;
-        soundLastTime = now;
-        soundTimer -= delta;
+        float delta = now - this.soundLastTime;
+        this.soundLastTime = now;
+        this.soundTimer -= delta;
     }
 
     @Override

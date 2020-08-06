@@ -41,19 +41,19 @@ public class LaunchPadScreen extends BaseContainerScreen<LaunchPadContainer> {
         mainPanel.setOnAlign(WAbstractWidget::center);
         mainPanel.center();
 
-        progressBar = new WBuildBar()
+        this.progressBar = new WBuildBar()
             .setLimit(new MutableInt(LaunchPadBlockEntity.MAX_BUILD_PROGRESS))
             .setProgress(new MutableInt(linkedContainer.launchPad.getBuildProgress()))
             .setSize(Size.of(150, 5))
             .setPosition(Position.of(mainPanel, 13, 111));
         mainPanel.add(progressBar);
 
-        errorIcon = new WStaticImage()
+        this.errorIcon = new WStaticImage()
             .setTexture(ERROR_TEXTURE)
             .setHidden(true)
             .setSize(Size.of(16, 16))
             .setPosition(Position.of(mainPanel, 32, 60));
-        mainPanel.add(errorIcon);
+        mainPanel.add(this.errorIcon);
 
         WTexturedSlot.addTArray(
             Position.of(mainPanel, 77, 30),
@@ -79,9 +79,9 @@ public class LaunchPadScreen extends BaseContainerScreen<LaunchPadContainer> {
 
     @Override
     public void tick() {
-        ArrayPropertyDelegate syncProperties = getContainer().syncProperties;
-        errorIcon.setHidden(syncProperties.get(0) != 0);
-        progressBar.getProgress().setValue(syncProperties.get(1));
+        ArrayPropertyDelegate syncProperties = this.getContainer().syncProperties;
+        this.errorIcon.setHidden(syncProperties.get(0) != 0);
+        this.progressBar.getProgress().setValue(syncProperties.get(1));
         super.tick();
     }
 }

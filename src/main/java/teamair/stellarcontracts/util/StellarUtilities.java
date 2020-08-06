@@ -13,13 +13,6 @@ public final class StellarUtilities {
     }
 
     /**
-     * Generates a random value between 0 and 1
-     */
-    public static double random() {
-        return Math.random();
-    }
-
-    /**
      * Generates a random value between -1 and 1
      */
     public static double centeredRandom() {

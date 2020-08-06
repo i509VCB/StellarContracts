@@ -22,21 +22,21 @@ public class LaunchPadContainer extends BaseContainer {
         this.player = playerInventory.player;
         this.pos = pos;
 
-        WInterface mainInterface = getInterface();
-        this.launchPad = (LaunchPadBlockEntity) player.world.getBlockEntity(pos);
+        WInterface mainInterface = this.getInterface();
+        this.launchPad = (LaunchPadBlockEntity) this.player.world.getBlockEntity(pos);
 
-        addInventory(1, this.launchPad.getInventory());
+        this.addInventory(1, this.launchPad.getInventory());
         WSlot.addHeadlessArray(mainInterface, 0, 1, 1, 4);
         WSlot.addHeadlessPlayerInventory(mainInterface);
 
-        syncProperties = new ArrayPropertyDelegate(2);
-        addProperties(syncProperties);
+        this.syncProperties = new ArrayPropertyDelegate(2);
+        this.addProperties(this.syncProperties);
     }
 
     @Override
     public void sendContentUpdates() {
-        if (!player.world.isClient) {
-            ScreenHandlerListener screenHandlerListener2 = (ScreenHandlerListener) player;
+        if (!this.player.world.isClient()) {
+            ScreenHandlerListener screenHandlerListener2 = (ScreenHandlerListener) this.player;
             screenHandlerListener2.onPropertyUpdate(this, 0, launchPad.hasBuildMaterials() ? 1 : 0);
             screenHandlerListener2.onPropertyUpdate(this, 1, launchPad.getBuildProgress());
         }

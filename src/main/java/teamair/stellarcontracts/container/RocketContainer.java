@@ -9,11 +9,11 @@ import spinnery.widget.WInterface;
 import spinnery.widget.WSlot;
 import spinnery.widget.api.WNetworked;
 import teamair.stellarcontracts.client.widget.WNetwork;
-import teamair.stellarcontracts.entity.RocketEntityMk1;
+import teamair.stellarcontracts.entity.AbstractRocketEntity;
 
 public class RocketContainer extends BaseContainer {
     public PlayerEntity player;
-    public RocketEntityMk1 entity;
+    public AbstractRocketEntity entity;
     public int id;
 
     public RocketContainer(int synchronizationID, int id, PlayerInventory playerInventory) {
@@ -21,10 +21,10 @@ public class RocketContainer extends BaseContainer {
         this.player = playerInventory.player;
         this.id = id;
 
-        WInterface mainInterface = getInterface();
-        this.entity = (RocketEntityMk1) player.world.getEntityById(id);
+        WInterface mainInterface = this.getInterface();
+        this.entity = (AbstractRocketEntity) this.player.world.getEntityById(id);
 
-        addInventory(1, this.entity.getInventory());
+        this.addInventory(1, this.entity.getInventory());
         WSlot.addHeadlessArray(mainInterface, 0, 1, 5, 5);
         WSlot.addHeadlessArray(mainInterface, 25, 1, 2, 1);
         WSlot.addHeadlessPlayerInventory(mainInterface);
@@ -41,7 +41,9 @@ public class RocketContainer extends BaseContainer {
                             ((ServerPlayerEntity) player).networkHandler.sendPacket(new CloseScreenS2CPacket(player.currentScreenHandler.syncId));
                             ((ServerPlayerEntity) player).closeCurrentScreen();
                         }
-                        player.currentScreenHandler = player.playerScreenHandler;
+
+                        // TODO: WTF?
+                        this.player.currentScreenHandler = this.player.playerScreenHandler;
                     }
                 }
             }

@@ -8,7 +8,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 
 public class BaseModel<T extends Entity> extends EntityModel<T> {
-
     protected final ModelRenderer model;
 
     public BaseModel() {
@@ -25,15 +24,14 @@ public class BaseModel<T extends Entity> extends EntityModel<T> {
     }
 
     public static class ModelRenderer extends ModelPart {
-
         public ModelRenderer(Model model) {
             super(model);
         }
 
         public void setRotationPoint(float x, float y, float z) {
-            pivotX = x;
-            pivotY = y;
-            pivotZ = z;
+            this.pivotX = x;
+            this.pivotY = y;
+            this.pivotZ = z;
         }
 
         public void addBox(float x, float y, float z, float sizeX, float sizeY, float sizeZ, float extra, boolean mirror) {

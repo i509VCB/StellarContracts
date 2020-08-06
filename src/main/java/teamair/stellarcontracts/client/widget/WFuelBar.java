@@ -24,7 +24,7 @@ public class WFuelBar extends WVerticalBar {
 
     @Override
     public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
-        if (isHidden()) {
+        if (this.isHidden()) {
             return;
         }
 
@@ -38,7 +38,7 @@ public class WFuelBar extends WVerticalBar {
         float rawHeight = MinecraftClient.getInstance().getWindow().getHeight();
         float scale = (float) MinecraftClient.getInstance().getWindow().getScaleFactor();
 
-        float sBGY = (((sY / limit.getValue().intValue()) * progress.getValue().intValue()));
+        float sBGY = (((sY / this.limit.getValue().intValue()) * this.progress.getValue().intValue()));
 
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
 
