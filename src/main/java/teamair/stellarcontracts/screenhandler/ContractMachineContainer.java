@@ -1,15 +1,16 @@
-package teamair.stellarcontracts.container;
+package teamair.stellarcontracts.screenhandler;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.math.BlockPos;
 import spinnery.common.container.BaseContainer;
+import spinnery.common.handler.BaseScreenHandler;
 import spinnery.widget.WInterface;
 import spinnery.widget.WSlot;
 import spinnery.widget.api.WNetworked;
 import teamair.stellarcontracts.client.widget.WNetwork;
 
-public class ContractMachineContainer extends BaseContainer {
+public class ContractMachineContainer extends BaseScreenHandler {
     public PlayerEntity player;
     public BlockPos pos;
 

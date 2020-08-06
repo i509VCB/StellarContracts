@@ -1,17 +1,24 @@
 package teamair.stellarcontracts.client;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.screen.ScreenProviderRegistry;
-import teamair.stellarcontracts.client.gui.*;
-import teamair.stellarcontracts.registry.StellarGUIs;
+import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 
-public final class StellarScreens {
+import teamair.stellarcontracts.client.gui.*;
+import teamair.stellarcontracts.registry.StellarScreenHandlers;
+
+@Environment(EnvType.CLIENT)
+final class StellarScreens {
     static void init() {
         // Screens
-        ScreenProviderRegistry.INSTANCE.registerFactory(StellarGUIs.COMMUNICATOR_CONTAINER, CommunicatorScreen::new);
-        ScreenProviderRegistry.INSTANCE.registerFactory(StellarGUIs.ROCKET_CRATE_CONTAINER, RocketCrateScreen::new);
-        ScreenProviderRegistry.INSTANCE.registerFactory(StellarGUIs.LAUNCH_PAD_CONTAINER, LaunchPadScreen::new);
-        ScreenProviderRegistry.INSTANCE.registerFactory(StellarGUIs.ROCKET_CONTAINER, RocketScreen::new);
-        ScreenProviderRegistry.INSTANCE.registerFactory(StellarGUIs.CONTRACT_MACHINE, ContractMachineScreen::new);
+        ScreenRegistry.register(StellarScreenHandlers.COMMUNICATOR, CommunicatorScreen::new);
+
+        // TODO: To be ported
+        ScreenProviderRegistry.INSTANCE.registerFactory(StellarScreenHandlers.ROCKET_CRATE_CONTAINER, RocketCrateScreen::new);
+        ScreenProviderRegistry.INSTANCE.registerFactory(StellarScreenHandlers.LAUNCH_PAD_CONTAINER, LaunchPadScreen::new);
+        ScreenProviderRegistry.INSTANCE.registerFactory(StellarScreenHandlers.ROCKET_CONTAINER, RocketScreen::new);
+        ScreenProviderRegistry.INSTANCE.registerFactory(StellarScreenHandlers.CONTRACT_MACHINE, ContractMachineScreen::new);
     }
 
     private StellarScreens() {

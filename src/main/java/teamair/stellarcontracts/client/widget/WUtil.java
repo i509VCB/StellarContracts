@@ -8,7 +8,7 @@ import spinnery.client.render.BaseRenderer;
 
 public class WUtil {
 
-    public static void drawTexturedQuad(MatrixStack matrices, VertexConsumerProvider.Immediate provider, float x, float y, float z, float sX, float sY, Identifier texture) {
+    public static void drawTexturedQuad(MatrixStack matrices, float x, float y, float z, float sX, float sY, Identifier texture) {
         BaseRenderer.getTextureManager().bindTexture(texture);
         DrawableHelper.drawTexture(matrices, (int) x, (int) y, (int) sX, (int) sY, 0, 0, (int) sX, (int) sY, (int) sX, (int) sY);
     }

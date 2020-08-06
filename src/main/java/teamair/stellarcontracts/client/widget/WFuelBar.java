@@ -23,7 +23,7 @@ public class WFuelBar extends WVerticalBar {
     }
 
     @Override
-    public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
+    public void draw(MatrixStack matrices, VertexConsumerProvider provider) {
         if (this.isHidden()) {
             return;
         }
@@ -44,11 +44,11 @@ public class WFuelBar extends WVerticalBar {
 
         GL11.glScissor((int) (x * scale), (int) (rawHeight - ((y + sY - sBGY) * scale)), (int) (sX * scale), (int) ((sY - sBGY) * scale));
 
-        WUtil.drawTexturedQuad(matrices, provider, getX(), getY(), z, getWidth(), getHeight(), getBackgroundTexture());
+        WUtil.drawTexturedQuad(matrices, getX(), getY(), z, getWidth(), getHeight(), getBackgroundTexture());
 
         GL11.glScissor((int) (x * scale), (int) (rawHeight - ((y + sY) * scale)), (int) (sX * scale), (int) (sBGY * scale));
 
-        WUtil.drawTexturedQuad(matrices, provider, getX(), getY(), z, getWidth(), getHeight(), getForegroundTexture());
+        WUtil.drawTexturedQuad(matrices, getX(), getY(), z, getWidth(), getHeight(), getForegroundTexture());
 
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
     }

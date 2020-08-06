@@ -27,8 +27,9 @@ dependencies {
 	implementation("org.jetbrains:annotations:19.0.0")
 
 	// Spinnery
-	modCompile "com.github.vini2003:spinnery:${project.spinnery_version}"
-	include "com.github.vini2003:spinnery:${project.spinnery_version}"
+	modCompile(include("com.github.vini2003:spinnery:${project.spinnery_version}")) {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
 }
 
 processResources {

@@ -1,13 +1,14 @@
-package teamair.stellarcontracts.container;
+package teamair.stellarcontracts.screenhandler;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import spinnery.common.container.BaseContainer;
+import spinnery.common.handler.BaseScreenHandler;
 import spinnery.widget.WInterface;
 import spinnery.widget.WSlot;
 import teamair.stellarcontracts.entity.RocketCrateEntity;
 
-public class RocketCrateContainer extends BaseContainer {
+public class RocketCrateContainer extends BaseScreenHandler {
     public PlayerEntity player;
     public int id;
 

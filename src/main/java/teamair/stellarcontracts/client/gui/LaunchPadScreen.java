@@ -5,7 +5,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.mutable.MutableInt;
-import spinnery.client.screen.BaseContainerScreen;
+import spinnery.client.screen.BaseHandledScreen;
 import spinnery.widget.WAbstractWidget;
 import spinnery.widget.WInterface;
 import spinnery.widget.WStaticImage;
@@ -17,9 +17,9 @@ import teamair.stellarcontracts.block.entity.LaunchPadBlockEntity;
 import teamair.stellarcontracts.client.widget.WBuildBar;
 import teamair.stellarcontracts.client.widget.WTexturedPanel;
 import teamair.stellarcontracts.client.widget.WTexturedSlot;
-import teamair.stellarcontracts.container.LaunchPadContainer;
+import teamair.stellarcontracts.screenhandler.LaunchPadContainer;
 
-public class LaunchPadScreen extends BaseContainerScreen<LaunchPadContainer> {
+public class LaunchPadScreen extends BaseHandledScreen<LaunchPadContainer> {
     private static final Identifier TEXTURE = StellarContracts.id("textures/gui/launch_pad_background.png");
     private static final Identifier ERROR_TEXTURE = StellarContracts.id("textures/gui/cross.png");
     private static final Text TOP = new TranslatableText("texts.stellar_contracts.rocket_crate_top_name");
@@ -31,7 +31,7 @@ public class LaunchPadScreen extends BaseContainerScreen<LaunchPadContainer> {
     public LaunchPadScreen(LaunchPadContainer linkedContainer) {
         super(TOP, linkedContainer, linkedContainer.player);
 
-        WInterface mainInterface = getInterface();
+        WInterface mainInterface = this.getInterface();
         WTexturedPanel mainPanel = mainInterface.createChild(WTexturedPanel::new,
             Position.of(0, 0, 0),
             Size.of(175, 220)

@@ -1,4 +1,4 @@
-package teamair.stellarcontracts.container;
+package teamair.stellarcontracts.screenhandler;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -6,12 +6,13 @@ import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.ScreenHandlerListener;
 import net.minecraft.util.math.BlockPos;
 import spinnery.common.container.BaseContainer;
+import spinnery.common.handler.BaseScreenHandler;
 import spinnery.widget.WInterface;
 import spinnery.widget.WSlot;
 import teamair.stellarcontracts.block.entity.LaunchPadBlockEntity;
 
 
-public class LaunchPadContainer extends BaseContainer {
+public class LaunchPadContainer extends BaseScreenHandler {
     public PlayerEntity player;
     public BlockPos pos;
     public LaunchPadBlockEntity launchPad;

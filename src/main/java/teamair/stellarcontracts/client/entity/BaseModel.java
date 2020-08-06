@@ -7,10 +7,10 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 
-public class BaseModel<T extends Entity> extends EntityModel<T> {
+abstract class BaseModel<T extends Entity> extends EntityModel<T> {
     protected final ModelRenderer model;
 
-    public BaseModel() {
+    BaseModel() {
         this.model = new ModelRenderer(this);
     }
 
@@ -23,7 +23,7 @@ public class BaseModel<T extends Entity> extends EntityModel<T> {
         this.model.render(matrices, vertices, light, overlay, red, green, blue, alpha);
     }
 
-    public static class ModelRenderer extends ModelPart {
+    static class ModelRenderer extends ModelPart {
         public ModelRenderer(Model model) {
             super(model);
         }

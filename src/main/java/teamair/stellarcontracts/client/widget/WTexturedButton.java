@@ -14,7 +14,7 @@ public class WTexturedButton extends WButton {
     private static final Identifier ACTIVE_TEXTURE = StellarContracts.id("textures/gui/button_1.png");
     private static final Identifier DISABLE_TEXTURE = StellarContracts.id("textures/gui/button_2.png");
 
-    public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
+    public void draw(MatrixStack matrices, VertexConsumerProvider provider) {
         if (!this.isHidden()) {
             if (this.isLowered()) {
                 BaseRenderer.getTextureManager().bindTexture(ACTIVE_TEXTURE);

@@ -18,9 +18,8 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
-import teamair.stellarcontracts.registry.StellarGUIs;
+import teamair.stellarcontracts.registry.StellarScreenHandlers;
 import teamair.stellarcontracts.registry.StellarItems;
 import teamair.stellarcontracts.registry.StellarSounds;
 import teamair.stellarcontracts.util.StellarUtilities;
@@ -62,11 +61,6 @@ public class AbstractRocketEntity extends Entity {
         StellarUtilities.writeInventory(tag, "inventory", this.inventory);
         tag.putBoolean("launched", isLaunched());
         tag.putInt("fuel", getFuel());
-    }
-
-    @Override
-    public Box getHardCollisionBox(Entity collidingEntity) {
-        return collidingEntity.isPushable() ? collidingEntity.getBoundingBox() : null;
     }
 
     @Override
@@ -121,7 +115,7 @@ public class AbstractRocketEntity extends Entity {
             }
 
             // FIXME: ScreenHandler time
-            ContainerProviderRegistry.INSTANCE.openContainer(StellarGUIs.ROCKET_CONTAINER, player, (buffer) -> {
+            ContainerProviderRegistry.INSTANCE.openContainer(StellarScreenHandlers.ROCKET_CONTAINER, player, (buffer) -> {
                 buffer.writeInt(this.getEntityId());
             });
 

@@ -6,7 +6,7 @@ public final class StellarRegistries {
         StellarBlocks.init();
         StellarBlockEntities.init();
         StellarEntities.init();
-        StellarGUIs.init();
+        StellarScreenHandlers.init();
         StellarContractTypes.init();
         StellarSounds.init();
     }

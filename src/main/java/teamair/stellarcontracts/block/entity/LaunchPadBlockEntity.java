@@ -74,7 +74,7 @@ public class LaunchPadBlockEntity extends BlockEntity implements Tickable {
     }
 
     private boolean hasRocketOnTop() {
-        List<AbstractRocketEntity> rockets = this.world.getEntities(StellarEntities.ROCKET_MK1,
+        List<AbstractRocketEntity> rockets = this.world.getEntitiesByType(StellarEntities.ROCKET_MK1,
             new Box(getPos().add(0, 1, 0), getPos().add(1, 4, 1)),
             it -> true);
 

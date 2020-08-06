@@ -5,19 +5,19 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.mutable.MutableInt;
-import spinnery.client.screen.BaseContainerScreen;
+import spinnery.client.screen.BaseHandledScreen;
 import spinnery.widget.WAbstractWidget;
 import spinnery.widget.WInterface;
 import spinnery.widget.api.Position;
 import spinnery.widget.api.Size;
 import teamair.stellarcontracts.StellarContracts;
 import teamair.stellarcontracts.client.widget.*;
-import teamair.stellarcontracts.container.RocketContainer;
+import teamair.stellarcontracts.screenhandler.RocketContainer;
 import teamair.stellarcontracts.entity.AbstractRocketEntity;
 
 import java.util.Arrays;
 
-public class RocketScreen extends BaseContainerScreen<RocketContainer> {
+public class RocketScreen extends BaseHandledScreen<RocketContainer> {
     private static final Text TOP = new TranslatableText("texts.stellar_contracts.rocket_gui_name");
     private static final Text SELECT_BTN = new TranslatableText("texts.stellar_contracts.rocket_gui_select_button");
     private static final Text LAUNCH_BTN = new TranslatableText("texts.stellar_contracts.rocket_gui_launch_button");
@@ -29,7 +29,7 @@ public class RocketScreen extends BaseContainerScreen<RocketContainer> {
     public RocketScreen(RocketContainer linkedContainer) {
         super(TOP, linkedContainer, linkedContainer.player);
 
-        WInterface mainInterface = getInterface();
+        WInterface mainInterface = this.getInterface();
         WTexturedPanel mainPanel = mainInterface.createChild(WTexturedPanel::new,
             Position.of(0, 0, 0),
             Size.of(176, 220)

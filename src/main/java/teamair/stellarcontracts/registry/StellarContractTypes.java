@@ -12,8 +12,6 @@ public final class StellarContractTypes {
     public static final RegistryKey<Registry<ContractType<?>>> CONTRACT_TYPE_KEY = RegistryKey.ofRegistry(StellarContracts.id("contract_types"));
     public static final Registry<ContractType<?>> REGISTRY = (SimpleRegistry) FabricRegistryBuilder.createSimple(ContractType.class, StellarContracts.id("contract_types")).buildAndRegister();
 
-    public static final ContractType<ResourceContract> RESOURCE = register("resource", new ContractType<>(ResourceContract::deserialize));
-
     private static <C extends Contract> ContractType<C> register(String path, ContractType<C> type) {
         return Registry.register(StellarContractTypes.REGISTRY, StellarContracts.id(path), type);
     }

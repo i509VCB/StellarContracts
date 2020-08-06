@@ -14,9 +14,8 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
-import teamair.stellarcontracts.registry.StellarGUIs;
+import teamair.stellarcontracts.registry.StellarScreenHandlers;
 import teamair.stellarcontracts.registry.StellarSounds;
 import teamair.stellarcontracts.util.StellarUtilities;
 
@@ -47,11 +46,6 @@ public class RocketCrateEntity extends Entity {
     @Override
     protected void writeCustomDataToTag(CompoundTag tag) {
         StellarUtilities.writeInventory(tag, "items", inventory);
-    }
-
-    @Override
-    public Box getHardCollisionBox(Entity collidingEntity) {
-        return collidingEntity.isPushable() ? collidingEntity.getBoundingBox() : null;
     }
 
     @Override
@@ -98,7 +92,7 @@ public class RocketCrateEntity extends Entity {
             return super.interact(player, hand);
         }
 
-        ContainerProviderRegistry.INSTANCE.openContainer(StellarGUIs.ROCKET_CRATE_CONTAINER, player, (buffer) -> {
+        ContainerProviderRegistry.INSTANCE.openContainer(StellarScreenHandlers.ROCKET_CRATE_CONTAINER, player, (buffer) -> {
             buffer.writeInt(this.getEntityId());
         });
         return ActionResult.SUCCESS;

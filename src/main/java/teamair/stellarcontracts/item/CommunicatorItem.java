@@ -1,39 +1,65 @@
 package teamair.stellarcontracts.item;
 
-import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import teamair.stellarcontracts.registry.StellarGUIs;
 import teamair.stellarcontracts.registry.StellarItems;
+import teamair.stellarcontracts.screenhandler.CommunicatorScreenHandler;
 
-public class CommunicatorItem extends Item {
+public class CommunicatorItem extends Item implements ExtendedScreenHandlerFactory {
+    private static final Text SCREEN_NAME = new TranslatableText("stellarcontracts.item.communicator");
     // FIXME: Check using packet sent to client, not this lol
     private boolean isContractActive;
 
-    public CommunicatorItem(Settings settings) {
-        super(settings.maxCount(1).rarity(Rarity.UNCOMMON).fireproof().group(StellarItems.STELLAR_ITEM_GROUP));
+    public CommunicatorItem() {
+        super(new Item.Settings()
+                .maxCount(1)
+                .rarity(Rarity.UNCOMMON)
+                .fireproof()
+                .group(StellarItems.STELLAR_ITEM_GROUP)
+        );
     }
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        // TODO: ScreenHandler
         if (!world.isClient()) {
-            ContainerProviderRegistry.INSTANCE.openContainer(StellarGUIs.COMMUNICATOR_CONTAINER, user, (buffer) -> {
-                buffer.writeText(new TranslatableText(this.getTranslationKey()));
-            });
+            user.openHandledScreen(this);
+
+            return TypedActionResult.success(user.getMainHandStack());
         }
 
-        return TypedActionResult.success(user.getMainHandStack());
+        return super.use(world, user, hand);
     }
 
     @Override
-    public boolean hasEnchantmentGlint(ItemStack stack) {
-        return isContractActive;
+    public boolean hasGlint(ItemStack stack) {
+        return this.isContractActive;
+    }
+
+    @Override
+    public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+        return new CommunicatorScreenHandler(syncId, playerInventory);
+    }
+
+    @Override
+    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
+        // TODO: Write contract data
+    }
+
+    @Override
+    public Text getDisplayName() {
+        return CommunicatorItem.SCREEN_NAME;
     }
 }

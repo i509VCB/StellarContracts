@@ -36,7 +36,7 @@ public class WSelectList extends WAbstractWidget {
     }
 
     @Override
-    public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
+    public void draw(MatrixStack matrices, VertexConsumerProvider provider) {
         if (this.isHidden()) return;
 
         int pos = 0;

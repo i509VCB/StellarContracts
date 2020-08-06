@@ -22,10 +22,9 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import teamair.stellarcontracts.registry.StellarBlockEntities;
-import teamair.stellarcontracts.registry.StellarGUIs;
+import teamair.stellarcontracts.registry.StellarScreenHandlers;
 
 public class ContractMachineBlock extends Block implements BlockEntityProvider {
-
     public ContractMachineBlock(Settings settings) {
         super(settings);
     }
@@ -52,7 +51,7 @@ public class ContractMachineBlock extends Block implements BlockEntityProvider {
             return ActionResult.SUCCESS;
         }
 
-        ContainerProviderRegistry.INSTANCE.openContainer(StellarGUIs.CONTRACT_MACHINE, player, (buffer) -> buffer.writeBlockPos(pos));
+        ContainerProviderRegistry.INSTANCE.openContainer(StellarScreenHandlers.CONTRACT_MACHINE, player, (buffer) -> buffer.writeBlockPos(pos));
         return ActionResult.SUCCESS;
     }
 

@@ -3,7 +3,8 @@ package teamair.stellarcontracts.client.gui;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
-import spinnery.client.screen.BaseContainerScreen;
+
+import spinnery.client.screen.BaseHandledScreen;
 import spinnery.widget.WAbstractWidget;
 import spinnery.widget.WInterface;
 import spinnery.widget.api.Position;
@@ -11,9 +12,9 @@ import spinnery.widget.api.Size;
 import teamair.stellarcontracts.StellarContracts;
 import teamair.stellarcontracts.client.widget.WTexturedPanel;
 import teamair.stellarcontracts.client.widget.WTexturedSlot;
-import teamair.stellarcontracts.container.RocketCrateContainer;
+import teamair.stellarcontracts.screenhandler.RocketCrateContainer;
 
-public class RocketCrateScreen extends BaseContainerScreen<RocketCrateContainer> {
+public class RocketCrateScreen extends BaseHandledScreen<RocketCrateContainer> {
     private static final Identifier TEXTURE = StellarContracts.id("textures/gui/rocket_crate.png");
     private static final Text TOP = new TranslatableText("texts.stellar_contracts.rocket_crate_top_name");
 

@@ -22,7 +22,7 @@ public class WTexturedPanel extends WPanel {
     }
 
     @Override
-    public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
+    public void draw(MatrixStack matrices, VertexConsumerProvider provider) {
         if(this.isHidden()) {
             return;
         }
@@ -43,7 +43,8 @@ public class WTexturedPanel extends WPanel {
                 .color(getStyle().asColor("label.color")).shadowColor(getStyle().asColor("label.shadow_color")).render(matrices, provider);
         }
 
-        for (WLayoutElement widget : getOrderedWidgets()) {
+        // TODO: We may need to do this ourselves since ordering is crobed
+        for (WLayoutElement widget : this.getAllWidgets()) {
             widget.draw(matrices, provider);
         }
     }

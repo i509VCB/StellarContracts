@@ -27,6 +27,9 @@ final class ClientNetworking {
         try {
             spawnPacket.read(buf);
         } catch (IOException ignored) {
+            ClientNetworking.LOGGER.info("Failed to read entity spawn packet!");
+            buf.release();
+            return;
         }
 
         context.getTaskQueue().execute(() -> {
@@ -39,7 +42,7 @@ final class ClientNetworking {
                 entity.yaw = (spawnPacket.getYaw() * 360) / 256.0F;
                 entity.setEntityId(spawnPacket.getId());
                 entity.setUuid(spawnPacket.getUuid());
-                entity.setVelocity(spawnPacket.getVelocityX(), spawnPacket.getVelocityY(), spawnPacket.getVelocityz());
+                entity.setVelocity(spawnPacket.getVelocityX(), spawnPacket.getVelocityY(), spawnPacket.getVelocityZ());
 
                 world.addEntity(spawnPacket.getId(), entity);
             }

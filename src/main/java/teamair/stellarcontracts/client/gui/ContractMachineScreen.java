@@ -3,7 +3,8 @@ package teamair.stellarcontracts.client.gui;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
-import spinnery.client.screen.BaseContainerScreen;
+
+import spinnery.client.screen.BaseHandledScreen;
 import spinnery.widget.WAbstractWidget;
 import spinnery.widget.WInterface;
 import spinnery.widget.api.Position;
@@ -11,9 +12,9 @@ import spinnery.widget.api.Size;
 import teamair.stellarcontracts.StellarContracts;
 import teamair.stellarcontracts.client.widget.WNetwork;
 import teamair.stellarcontracts.client.widget.WTexturedPanel;
-import teamair.stellarcontracts.container.ContractMachineContainer;
+import teamair.stellarcontracts.screenhandler.ContractMachineContainer;
 
-public class ContractMachineScreen extends BaseContainerScreen<ContractMachineContainer> {
+public class ContractMachineScreen extends BaseHandledScreen<ContractMachineContainer> {
     private static final Text TOP = new TranslatableText("texts.stellar_contracts.contract_machine_gui_name");
     private static final Identifier TEXTURE = StellarContracts.id("textures/gui/contract_machine_background.png");
 

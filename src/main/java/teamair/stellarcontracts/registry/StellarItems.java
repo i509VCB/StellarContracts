@@ -16,7 +16,7 @@ public final class StellarItems {
     // Items
     public static final Item METATANIUM_INGOT = register("metatanium_ingot", new Item(new Item.Settings().group(STELLAR_ITEM_GROUP)));
     public static final Item METATANIUM_PLATE = register("metatanium_plate", new Item(new Item.Settings().group(STELLAR_ITEM_GROUP)));
-    public static final Item COMMUNICATOR = register("communicator", new CommunicatorItem(new Item.Settings()));
+    public static final Item COMMUNICATOR = register("communicator", new CommunicatorItem());
     public static final Item BASIC_CIRCUIT = register("basic_circuit", new Item(new Item.Settings().group(STELLAR_ITEM_GROUP)));
     public static final Item ADVANCED_CIRCUIT = register("advanced_circuit", new Item(new Item.Settings().group(STELLAR_ITEM_GROUP)));
     public static final Item ALIEN_CIRCUIT = register("alien_circuit", new Item(new Item.Settings().group(STELLAR_ITEM_GROUP).fireproof().rarity(Rarity.UNCOMMON)));

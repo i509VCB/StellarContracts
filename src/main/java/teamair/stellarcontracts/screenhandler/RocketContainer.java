@@ -1,17 +1,18 @@
-package teamair.stellarcontracts.container;
+package teamair.stellarcontracts.screenhandler;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.packet.s2c.play.CloseScreenS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import spinnery.common.container.BaseContainer;
+import spinnery.common.handler.BaseScreenHandler;
 import spinnery.widget.WInterface;
 import spinnery.widget.WSlot;
 import spinnery.widget.api.WNetworked;
 import teamair.stellarcontracts.client.widget.WNetwork;
 import teamair.stellarcontracts.entity.AbstractRocketEntity;
 
-public class RocketContainer extends BaseContainer {
+public class RocketContainer extends BaseScreenHandler {
     public PlayerEntity player;
     public AbstractRocketEntity entity;
     public int id;

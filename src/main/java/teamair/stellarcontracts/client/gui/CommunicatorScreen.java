@@ -3,53 +3,41 @@ package teamair.stellarcontracts.client.gui;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
-import spinnery.client.render.BaseRenderer;
-import spinnery.client.screen.BaseContainerScreen;
-import spinnery.widget.WAbstractWidget;
-import spinnery.widget.WInterface;
-import spinnery.widget.WPanel;
-import spinnery.widget.WSlot;
-import spinnery.widget.api.Position;
-import spinnery.widget.api.Size;
-import spinnery.widget.api.WLayoutElement;
-import teamair.stellarcontracts.container.CommunicatorContainer;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
-import static teamair.stellarcontracts.StellarContracts.id;
+import com.mojang.blaze3d.systems.RenderSystem;
+import spinnery.widget.WPanel;
+import spinnery.widget.api.WLayoutElement;
+import teamair.stellarcontracts.StellarContracts;
+import teamair.stellarcontracts.screenhandler.CommunicatorScreenHandler;
 
 @Environment(EnvType.CLIENT)
-public class CommunicatorScreen extends BaseContainerScreen<CommunicatorContainer> {
-    public CommunicatorScreen(CommunicatorContainer linkedContainer) {
-        super(linkedContainer.text, linkedContainer, linkedContainer.player);
+public class CommunicatorScreen extends HandledScreen<CommunicatorScreenHandler> {
+    private static final Identifier COMMS_PANEL = StellarContracts.id("textures/gui/communicator.png");
 
-        WInterface mainInterface = this.getInterface();
-        WCommunicatorPanel mainPanel = mainInterface.createChild(WCommunicatorPanel::new, Position.of(0, 0, 0), Size.of(9 * 18 + 8, 3 * 18 + 108)).setParent(mainInterface);
-
-        mainPanel.setOnAlign(WAbstractWidget::center);
-        mainPanel.center();
-
-        WSlot.addPlayerInventory(Position.of(mainPanel, ((mainPanel.getWidth()) / 2) - (int) (18 * 4.5f) + 3, 3 * 18 + 24 - 2, 1), Size.of(18, 18), mainInterface);
-
-        mainInterface.add(mainPanel);
-        mainInterface.setBlurred(true);
+    public CommunicatorScreen(CommunicatorScreenHandler handler, PlayerInventory playerInventory, Text title) {
+        super(handler, playerInventory, title);
     }
 
-    private final static class WCommunicatorPanel extends WPanel {
-        @Override
-        public void draw(MatrixStack matrices, VertexConsumerProvider.Immediate provider) {
-            if (!this.isHidden()) {
-                float x = this.getX();
-                float y = this.getY();
-                int sX = 180;
-                int sY = 180;
-                BaseRenderer.getTextureManager().bindTexture(id("textures/gui/comm.png"));
-                DrawableHelper.drawTexture(matrices, (int) x, (int) y, 0, 0, sX, sY, sX, sY);
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.renderBackground(matrices);
+        super.render(matrices, mouseX, mouseY, delta);
+    }
 
-                for (WLayoutElement widget : this.getOrderedWidgets()) {
-                    widget.draw(matrices, provider);
-                }
-            }
-        }
+    @Override
+    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+        this.client.getTextureManager().bindTexture(CommunicatorScreen.COMMS_PANEL);
+        DrawableHelper.drawTexture(matrices, this.x, this.y, 0, 0, 180, 180, 180, 180);
+    }
+
+    @Override
+    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+        // Don't render text on this screen
     }
 }
