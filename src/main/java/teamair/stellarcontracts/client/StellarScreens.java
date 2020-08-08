@@ -13,11 +13,11 @@ final class StellarScreens {
 	static void init() {
 		// Screens
 		ScreenRegistry.register(StellarScreenHandlers.COMMUNICATOR, CommunicatorScreen::new);
+		ScreenRegistry.register(StellarScreenHandlers.ROCKET_MK1, RocketMk1Screen::new);
 
 		// TODO: To be ported
 		ScreenProviderRegistry.INSTANCE.registerFactory(StellarScreenHandlers.ROCKET_CRATE_CONTAINER, RocketCrateScreen::new);
 		ScreenProviderRegistry.INSTANCE.registerFactory(StellarScreenHandlers.LAUNCH_PAD_CONTAINER, LaunchPadScreen::new);
-		ScreenProviderRegistry.INSTANCE.registerFactory(StellarScreenHandlers.ROCKET_CONTAINER, RocketMk1Screen::new);
 		ScreenProviderRegistry.INSTANCE.registerFactory(StellarScreenHandlers.CONTRACT_MACHINE, ContractMachineScreen::new);
 	}
 

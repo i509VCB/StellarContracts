@@ -27,10 +27,6 @@
       "teamair.stellarcontracts.client.StellarContractsClient"
     ]
   },
-  "mixins": [
-    "stellar_contracts.mixins.json"
-  ],
-
   "depends": {
     "fabricloader": ">=0.8.7",
     "fabric": "*",

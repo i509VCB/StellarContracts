@@ -18,6 +18,7 @@ public class StellarContracts implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		StellarRegistries.init();
+		ServerNetworking.init();
 
 		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, supplier, setter) -> {
 			if (new Identifier("chests/simple_dungeon").equals(id)) {

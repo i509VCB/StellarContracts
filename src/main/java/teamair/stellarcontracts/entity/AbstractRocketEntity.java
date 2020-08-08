@@ -1,6 +1,6 @@
 package teamair.stellarcontracts.entity;
 
-import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -21,12 +21,10 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-import teamair.stellarcontracts.registry.StellarScreenHandlers;
-import teamair.stellarcontracts.registry.StellarItems;
 import teamair.stellarcontracts.registry.StellarSounds;
 import teamair.stellarcontracts.util.StellarUtilities;
 
-public abstract class AbstractRocketEntity extends Entity {
+public abstract class AbstractRocketEntity extends Entity implements ExtendedScreenHandlerFactory {
 	private static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(AbstractRocketEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	private static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(AbstractRocketEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	private static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(AbstractRocketEntity.class, TrackedDataHandlerRegistry.FLOAT);
@@ -99,33 +97,31 @@ public abstract class AbstractRocketEntity extends Entity {
 
 	@Override
 	public ActionResult interact(PlayerEntity player, Hand hand) {
-		if (player.world.isClient()) {
-			return super.interact(player, hand);
-		}
+		if (!player.world.isClient()) {
+			if (!this.isLaunched()) {
+				ItemStack handItem = player.getStackInHand(hand);
 
-		if (!this.isLaunched()) {
-			ItemStack handItem = player.getStackInHand(hand);
-			if (!this.isSuitableFuelItem(handItem)) {
+				if (!this.isSuitableFuelItem(handItem)) {
 
-				if (this.getFuel() < MAX_FUEL) {
-					handItem.decrement(1);
+					if (this.getFuel() < MAX_FUEL) {
+						handItem.decrement(1);
 
-					this.setFuel(MAX_FUEL);
-					return ActionResult.SUCCESS;
+						this.setFuel(MAX_FUEL);
+						return ActionResult.SUCCESS;
+					}
+
+					return ActionResult.FAIL;
 				}
 
-				return ActionResult.FAIL;
+				player.openHandledScreen(this);
+
+				return ActionResult.SUCCESS;
 			}
 
-			// FIXME: ScreenHandler time
-			ContainerProviderRegistry.INSTANCE.openContainer(StellarScreenHandlers.ROCKET_CONTAINER, player, (buffer) -> {
-				buffer.writeInt(this.getEntityId());
-			});
-
-			return ActionResult.SUCCESS;
+			return ActionResult.FAIL;
 		}
 
-		return ActionResult.FAIL;
+		return super.interact(player, hand);
 	}
 
 	protected abstract boolean isSuitableFuelItem(ItemStack stack);
