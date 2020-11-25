@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "stellar_contracts",
+  "id": "stellarcontracts",
   "version": "${version}",
 
   "name": "Stellar Contracts",
@@ -21,18 +21,15 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "teamair.stellarcontracts.StellarContracts"
+      "stellarcontracts.StellarContracts"
     ],
     "client": [
-      "teamair.stellarcontracts.client.StellarContractsClient"
+      "stellarcontracts.client.StellarContractsClient"
     ]
   },
   "depends": {
     "fabricloader": ">=0.8.7",
     "fabric": "*",
-    "minecraft": "1.16.x"
-  },
-  "suggests": {
-    "flamingo": "*"
+    "minecraft": ">1.16.1"
   }
 }
